@@ -166,7 +166,7 @@ class Printer:
         """
         return self.__printerMQTTClient.turn_light_off()
 
-    def gcode(self, gcode: str) -> bool:
+    def gcode(self, gcode: str | list[str]) -> bool:
         """
         Send a gcode command to the printer.
 

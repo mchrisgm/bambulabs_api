@@ -15,7 +15,7 @@ from .filament_info import Filament, FilamentTray
 from .states_info import GcodeState, PrintStatus
 
 
-def is_valid_gcode(line):
+def is_valid_gcode(line: str):
     """
     Check if a line is a valid G-code command
 
@@ -346,17 +346,23 @@ class PrinterMQTTClient:
         return self.__publish_command({"print": {"command": "gcode_line",
                                                  "param": f"{gcode_command}"}})
 
-    def send_gcode(self, gcode_command: str) -> bool:
+    def send_gcode(self, gcode_command: str | list[str]) -> bool:
         """
         Send a G-code line command to the printer
 
         Args:
-            gcode_command (str): G-code command to send to the printer
+            gcode_command (str | list[str]): G-code command to send to the
+                printer
         """
-        if not is_valid_gcode(gcode_command):
-            raise ValueError("Invalid G-code command")
+        if isinstance(gcode_command, str):
+            if not is_valid_gcode(gcode_command):
+                raise ValueError("Invalid G-code command")
 
-        return self.__send_gcode_line(gcode_command)
+            return self.__send_gcode_line(gcode_command)
+        elif isinstance(gcode_command, list):
+            if any(not is_valid_gcode(g) for g in gcode_command):
+                raise ValueError("Invalid G-code command")
+            return self.__send_gcode_line("\n".join(gcode_command))
 
     def set_bed_temperature(self, temperature: int) -> bool:
         """
