@@ -64,7 +64,7 @@ git clone https://github.com/acse-ci223/bambulabs_api.git
 # Change directory
 cd bambulabs_api
 
-# Create the 'parally' environment
+# Create the environment
 conda env create -f environment.yml
 
 # Activate the environment
