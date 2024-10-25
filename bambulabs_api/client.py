@@ -172,8 +172,8 @@ class Printer:
 
         Parameters
         ----------
-        gcode : str
-            The gcode command to be sent.
+        gcode : str | list[str]
+            The gcode command or list of gcode commands to be sent.
 
         Returns
         -------

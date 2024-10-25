@@ -351,7 +351,7 @@ class PrinterMQTTClient:
         Send a G-code line command to the printer
 
         Args:
-            gcode_command (str | list[str]): G-code command to send to the
+            gcode_command (str | list[str]): G-code command(s) to send to the
                 printer
         """
         if isinstance(gcode_command, str):
