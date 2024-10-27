@@ -331,6 +331,66 @@ class PrinterMQTTClient:
         """
         return self.__send_gcode_line(f"M140 S{temperature}\n")
 
+    def set_part_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self._set_fan_speed(speed, 1)
+
+    def set_aux_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the aux part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self._set_fan_speed(speed, 2)
+
+    def set_chamber_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the chamber fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self._set_fan_speed(speed, 3)
+
+    def _set_fan_speed(self, speed: int | float, fan_num: int) -> bool:
+        """
+        Set the fan speed of a fan
+
+        Args:
+            speed (int | float): The speed to set the fan to
+            fan_num (int): Id of the fan to be set
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        if isinstance(speed, int):
+            if speed > 255 or speed < 0:
+                raise ValueError(f"Fan Speed {speed} is not between 0 and 255")
+            return self.__send_gcode_line(f"M106 P{fan_num} S{speed}\n")
+
+        elif isinstance(speed, float):
+            if speed < 0 or speed > 1:
+                raise ValueError(f"Fan Speed {speed} is not between 0 and 1")
+            speed = round(255 / speed)
+            return self.__send_gcode_line(f"M106 P{fan_num} S{speed}\n")
+
+        raise ValueError("Fan Speed is not float or int")
+
     def set_bed_height(self, height: int) -> bool:
         """
         Set the absolute height of the bed (Z-axis).
