@@ -413,6 +413,17 @@ class PrinterMQTTClient:
         """
         return self.__send_gcode_line("G28\n")
 
+    def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
+        """
+        Set whether or not to set auto step recovery
+
+        Returns:
+            bool: success of the auto step recovery command command
+        """
+        return self.__publish_command({"print": {
+            "command": "gcode_line", "auto_recovery": auto_step_recovery
+        }})
+
     def set_print_speed_lvl(self, speed_lvl: int = 1) -> bool:
         """
         Set the print speed

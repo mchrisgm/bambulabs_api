@@ -515,3 +515,13 @@ class Printer:
             bool: success of setting the fan speed
         """
         return self.__printerMQTTClient.set_chamber_fan_speed(speed)
+
+    def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
+        """
+        Set whether or not to set auto step recovery
+
+        Returns:
+            bool: success of the auto step recovery command command
+        """
+        return self.__printerMQTTClient.set_auto_step_recovery(
+            auto_step_recovery)
