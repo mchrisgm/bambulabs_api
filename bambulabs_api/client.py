@@ -479,3 +479,39 @@ class Printer:
             bool: if publish command is successful
         """
         return self.__printerMQTTClient.skip_objects(obj_list=obj_list)
+
+    def set_part_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_part_fan_speed(speed)
+
+    def set_aux_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the aux part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_aux_fan_speed(speed)
+
+    def set_chamber_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the chamber fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_chamber_fan_speed(speed)
