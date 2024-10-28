@@ -34,6 +34,7 @@ Make sure you have Python 3.6 or higher installed.
 Below is a basic example demonstrating how to connect to a BambuLab 3D printer and retrieve its status using the API:
 
 ```python
+import time
 import bambulabs_api as bl
 
 IP = '192.168.1.200'
@@ -53,11 +54,21 @@ if __name__ == '__main__':
     # Connect to the BambuLab 3D printer
     printer.connect()
 
+    time.sleep(2)
+
     # Get the printer status
     status = printer.get_state()
     print(f'Printer status: {status}')
 
-    # Disconnect from the BambuLab 3D printer
+    # Turn the light off
+    printer.turn_light_off()
+
+    time.sleep(2)
+
+    # Turn the light on
+    printer.turn_light_on()
+
+    # Disconnect from the Bambulabs 3D printer
     printer.disconnect()
 ```
 

@@ -3,6 +3,7 @@ import logging
 import ssl
 import datetime
 from typing import Any
+from re import match
 
 import paho.mqtt.client as mqtt
 from paho.mqtt.enums import CallbackAPIVersion
@@ -12,6 +13,32 @@ from bambulabs_api.printer_info import NozzleType
 
 from .filament_info import Filament, FilamentTray
 from .states_info import GcodeState, PrintStatus
+
+
+def is_valid_gcode(line: str):
+    """
+    Check if a line is a valid G-code command
+
+    Args:
+        line (str): The line to check
+
+    Returns:
+        bool: True if the line is a valid G-code command, False otherwise
+    """
+    # Remove whitespace and comments
+    line = line.split(";")[0].strip()
+
+    # Check if line is empty or starts with a valid G-code command (G or M)
+    if not line or not match(r"^[GM]\d+", line):
+        return False
+
+    # Check for proper parameter formatting
+    tokens = line.split()
+    for token in tokens[1:]:
+        if not match(r"^[A-Z]-?\d+(\.\d+)?$", token):
+            return False
+
+    return True
 
 
 class PrinterMQTTClient:
@@ -318,6 +345,24 @@ class PrinterMQTTClient:
         """
         return self.__publish_command({"print": {"command": "gcode_line",
                                                  "param": f"{gcode_command}"}})
+
+    def send_gcode(self, gcode_command: str | list[str]) -> bool:
+        """
+        Send a G-code line command to the printer
+
+        Args:
+            gcode_command (str | list[str]): G-code command(s) to send to the
+                printer
+        """
+        if isinstance(gcode_command, str):
+            if not is_valid_gcode(gcode_command):
+                raise ValueError("Invalid G-code command")
+
+            return self.__send_gcode_line(gcode_command)
+        elif isinstance(gcode_command, list):
+            if any(not is_valid_gcode(g) for g in gcode_command):
+                raise ValueError("Invalid G-code command")
+            return self.__send_gcode_line("\n".join(gcode_command))
 
     def set_bed_temperature(self, temperature: int) -> bool:
         """

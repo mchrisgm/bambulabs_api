@@ -166,6 +166,27 @@ class Printer:
         """
         return self.__printerMQTTClient.turn_light_off()
 
+    def gcode(self, gcode: str | list[str]) -> bool:
+        """
+        Send a gcode command to the printer.
+
+        Parameters
+        ----------
+        gcode : str | list[str]
+            The gcode command or list of gcode commands to be sent.
+
+        Returns
+        -------
+        bool
+            True if the gcode command is sent successfully.
+
+        Raises
+        ------
+        ValueError
+            If the gcode command is invalid.
+        """
+        return self.__printerMQTTClient.send_gcode(gcode)
+
     def upload_file(self, file: BinaryIO, filename: str = "ftp_upload.gcode") -> str:  # noqa
         """
         Upload a file to the printer.
