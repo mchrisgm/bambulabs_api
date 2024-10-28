@@ -49,6 +49,7 @@
 <li><a class="reference internal" href="#bambulabs_api.Printer.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.delete_file"><code class="docutils literal notranslate"><span class="pre">delete_file()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.disconnect"><code class="docutils literal notranslate"><span class="pre">disconnect()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.gcode"><code class="docutils literal notranslate"><span class="pre">gcode()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.get_camera_frame"><code class="docutils literal notranslate"><span class="pre">get_camera_frame()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.get_current_state"><code class="docutils literal notranslate"><span class="pre">get_current_state()</span></code></a></li>
@@ -66,9 +67,13 @@
 <li><a class="reference internal" href="#bambulabs_api.Printer.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.resume_print"><code class="docutils literal notranslate"><span class="pre">resume_print()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.retry_filament_action"><code class="docutils literal notranslate"><span class="pre">retry_filament_action()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.set_auto_step_recovery"><code class="docutils literal notranslate"><span class="pre">set_auto_step_recovery()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.set_aux_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_aux_fan_speed()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.set_bed_temperature"><code class="docutils literal notranslate"><span class="pre">set_bed_temperature()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.set_chamber_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_chamber_fan_speed()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.set_filament_printer"><code class="docutils literal notranslate"><span class="pre">set_filament_printer()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.set_nozzle_temperature"><code class="docutils literal notranslate"><span class="pre">set_nozzle_temperature()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.set_part_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_part_fan_speed()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.set_print_speed"><code class="docutils literal notranslate"><span class="pre">set_print_speed()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.skip_objects"><code class="docutils literal notranslate"><span class="pre">skip_objects()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.start_print"><code class="docutils literal notranslate"><span class="pre">start_print()</span></code></a></li>
@@ -245,6 +250,26 @@ including the status of the printer and the status of the print job.</p>
 <dt class="sig sig-object py" id="bambulabs_api.Printer.disconnect">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">disconnect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.Printer.disconnect" title="Link to this definition"></a></dt>
 <dd><p>Disconnect from the printer</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.gcode">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">gcode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.gcode" title="Link to this definition"></a></dt>
+<dd><p>Send a gcode command to the printer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gcode</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – The gcode command or list of gcode commands to be sent.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the gcode command is sent successfully.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the gcode command is invalid.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -497,6 +522,41 @@ NOT IMPLEMENTED YET</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.set_auto_step_recovery">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_auto_step_recovery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_step_recovery</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_auto_step_recovery" title="Link to this definition"></a></dt>
+<dd><p>Set whether or not to set auto step recovery</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auto_step_recovery</strong> (<em>bool</em>) – flag to set auto step recovery.
+Default True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of the auto step recovery command command</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.set_aux_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_aux_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_aux_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the aux part fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.set_bed_temperature">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_bed_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_bed_temperature" title="Link to this definition"></a></dt>
 <dd><p>Set the bed temperature of the printer.</p>
@@ -506,6 +566,23 @@ NOT IMPLEMENTED YET</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the temperature is set successfully.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.set_chamber_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_chamber_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_chamber_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the chamber fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
@@ -543,6 +620,23 @@ NOT IMPLEMENTED YET</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the temperature is set successfully.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.set_part_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_part_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_part_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the part fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
