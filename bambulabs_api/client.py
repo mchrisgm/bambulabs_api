@@ -166,6 +166,27 @@ class Printer:
         """
         return self.__printerMQTTClient.turn_light_off()
 
+    def gcode(self, gcode: str | list[str]) -> bool:
+        """
+        Send a gcode command to the printer.
+
+        Parameters
+        ----------
+        gcode : str | list[str]
+            The gcode command or list of gcode commands to be sent.
+
+        Returns
+        -------
+        bool
+            True if the gcode command is sent successfully.
+
+        Raises
+        ------
+        ValueError
+            If the gcode command is invalid.
+        """
+        return self.__printerMQTTClient.send_gcode(gcode)
+
     def upload_file(self, file: BinaryIO, filename: str = "ftp_upload.gcode") -> str:  # noqa
         """
         Upload a file to the printer.
@@ -479,3 +500,53 @@ class Printer:
             bool: if publish command is successful
         """
         return self.__printerMQTTClient.skip_objects(obj_list=obj_list)
+
+    def set_part_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_part_fan_speed(speed)
+
+    def set_aux_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the aux part fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_aux_fan_speed(speed)
+
+    def set_chamber_fan_speed(self, speed: int | float) -> bool:
+        """
+        Set the fan speed of the chamber fan
+
+        Args:
+            speed (int | float): The speed to set the part fan
+
+        Returns:
+            bool: success of setting the fan speed
+        """
+        return self.__printerMQTTClient.set_chamber_fan_speed(speed)
+
+    def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
+        """
+        Set whether or not to set auto step recovery
+
+        Args:
+            auto_step_recovery (bool): flag to set auto step recovery.
+                Default True.
+
+        Returns:
+            bool: success of the auto step recovery command command
+        """
+        return self.__printerMQTTClient.set_auto_step_recovery(
+            auto_step_recovery)
