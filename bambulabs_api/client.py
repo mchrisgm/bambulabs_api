@@ -520,6 +520,10 @@ class Printer:
         """
         Set whether or not to set auto step recovery
 
+        Args:
+            auto_step_recovery (bool): flag to set auto step recovery.
+                Default True.
+
         Returns:
             bool: success of the auto step recovery command command
         """
