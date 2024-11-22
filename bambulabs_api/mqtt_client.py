@@ -139,6 +139,15 @@ class PrinterMQTTClient:
         """
         self._client.loop_stop()
 
+    def dump(self) -> dict[Any, Any]:
+        """
+        Dump the current state of the printer message
+
+        Returns:
+            dict[Any, Any]: The latest data recorded
+        """
+        return self._data
+
     def __get(self, key: str, default: Any = None) -> Any:
         self.manual_update()
         return self._data.get(key, default)
