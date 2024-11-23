@@ -6,6 +6,7 @@ from typing import Any
 from re import match
 
 import paho.mqtt.client as mqtt
+import paho.mqtt.reasoncodes
 from paho.mqtt.enums import CallbackAPIVersion
 
 from bambulabs_api.ams import AMS
@@ -56,7 +57,10 @@ class PrinterMQTTClient:
         self._port = port
         self._timeout = timeout
 
-        self._client: mqtt.Client = mqtt.Client(CallbackAPIVersion.VERSION2)
+        self._client: mqtt.Client = mqtt.Client(
+            CallbackAPIVersion.VERSION2,
+            protocol=mqtt.MQTTv311,
+        )
         self._client.username_pw_set(username, access)
         self._client.tls_set(tls_version=ssl.PROTOCOL_TLS,
                              cert_reqs=ssl.CERT_NONE)
@@ -82,7 +86,13 @@ class PrinterMQTTClient:
             self._data |= doc["print"]
             logging.debug(self._data)
 
-    def _on_connect(self, client: mqtt.Client, serial, userdata, flags, rc) -> None:  # pylint: disable=unused-argument  # noqa
+    def _on_connect(
+            self,
+            client: mqtt.Client,
+            userdata,
+            flags,
+            rc: paho.mqtt.reasoncodes.ReasonCode,
+            properties) -> None:  # pylint: disable=unused-argument
         """
         _on_connect Callback function for when the client
         receives a CONNACK response from the server.
@@ -98,11 +108,12 @@ class PrinterMQTTClient:
         rc : int
             The connection result
         """
-        if rc == 0:
-            print("Connected successfully")
+        logging.debug(f"Connection failed with result code {rc}")
+        if rc == 0 or not rc.is_failure:
+            logging.debug("Connected successfully")
             client.subscribe(f"device/{self._printer_serial}/report")
         else:
-            print(f"Connection failed with result code {rc}")
+            logging.warning(f"Connection failed with result code {rc}")
 
     def connect(self) -> None:
         """
@@ -114,7 +125,7 @@ class PrinterMQTTClient:
         """
         Starts the MQTT client
         """
-        self._client.loop_start()
+        return self._client.loop_start()
 
     def loop_forever(self):
         """
@@ -499,13 +510,21 @@ class PrinterMQTTClient:
         """
         return self.__send_gcode_line(f"M104 S{temperature}\n")
 
-    def set_printer_filament(self, filament_material: Filament, colour: str) -> bool:  # noqa
+    def set_printer_filament(
+        self,
+        filament_material: Filament,
+        colour: str,
+        ams_id: int = 255,
+        tray_id: int = 254,
+    ) -> bool:
         """
         Set the printer filament manually fed into the printer
 
         Args:
-            filament_material (Filament): filament material to set
-            colour (str): colour of the filament
+            filament_material (Filament): filament material to set.
+            colour (str): colour of the filament.
+            ams_id (int): ams id. Default to external filament spool: 255.
+            tray_id (int): tray id. Default to external filament spool: 254.
 
         Returns:
             bool: success of setting the printer filament
@@ -516,8 +535,8 @@ class PrinterMQTTClient:
             {
                 "print": {
                     "command": "ams_filament_setting",
-                    "ams_id": 255,
-                    "tray_id": 254,
+                    "ams_id": ams_id,
+                    "tray_id": tray_id,
                     "tray_info_idx": filament_material.tray_info_idx,
                     "tray_color": f"{colour.upper()}FF",
                     "nozzle_temp_min": filament_material.nozzle_temp_min,

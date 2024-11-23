@@ -18,7 +18,7 @@ class Printer:
     """
     Client Class for connecting to the Bambulabs 3D printer
     """
-    def __init__(self, ip_address, access_code, serial):
+    def __init__(self, ip_address: str, access_code: str, serial: str):
         self.ip_address = ip_address
         self.access_code = access_code
         self.serial = serial
@@ -322,7 +322,11 @@ class Printer:
         """
         return self.__printerMQTTClient.set_bed_height(height)
 
-    def set_filament_printer(self, color: str, filament: str | AMSFilamentSettings) -> bool:  # noqa
+    def set_filament_printer(
+        self,
+        color: str,
+        filament: str | AMSFilamentSettings
+    ) -> bool:
         """
         Set the filament of the printer.
 
