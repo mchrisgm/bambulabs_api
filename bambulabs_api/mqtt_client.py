@@ -6,6 +6,7 @@ from typing import Any
 from re import match
 
 import paho.mqtt.client as mqtt
+import paho.mqtt.properties
 import paho.mqtt.reasoncodes
 from paho.mqtt.enums import CallbackAPIVersion
 
@@ -78,7 +79,12 @@ class PrinterMQTTClient:
 
         self._ams: dict[int, AMS] = {}
 
-    def _on_message(self, client, userdata, msg) -> None:  # pylint: disable=unused-argument  # noqa
+    def _on_message(
+        self,
+        client,
+        userdata,
+        msg
+    ) -> None:  # pylint: disable=unused-argument  # noqa
         # Current date and time
         doc = json.loads(msg.payload)
 
@@ -87,12 +93,13 @@ class PrinterMQTTClient:
             logging.debug(self._data)
 
     def _on_connect(
-            self,
-            client: mqtt.Client,
-            userdata,
-            flags,
-            rc: paho.mqtt.reasoncodes.ReasonCode,
-            properties) -> None:  # pylint: disable=unused-argument
+                self,
+                client: mqtt.Client,
+                userdata: Any,
+                flags: mqtt.ConnectFlags,
+                rc: paho.mqtt.reasoncodes.ReasonCode,
+                properties: paho.mqtt.properties.Properties | None
+    ) -> None:  # pylint: disable=unused-argument
         """
         _on_connect Callback function for when the client
         receives a CONNACK response from the server.
@@ -745,3 +752,13 @@ class PrinterMQTTClient:
                         filament_tray=FilamentTray.from_dict(tray))
 
             self._ams[id] = ams
+
+    def vt_tray(self) -> FilamentTray:
+        """
+        Get Filament Tray of the external spool.
+
+        Returns:
+            FilamentTray: External Spool Filament Tray
+        """
+        tray = self.__get("vt_tray")
+        return FilamentTray(**tray)

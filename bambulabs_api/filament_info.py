@@ -1,9 +1,9 @@
+__all__ = ["AMSFilamentSettings", "Filament"]
+
 from dataclasses import dataclass
 from enum import Enum
 from functools import cached_property
 from typing import Any
-
-__all__ = ["AMSFilamentSettings", "Filament"]
 
 
 @dataclass(frozen=True)
@@ -80,7 +80,7 @@ class Filament(AMSFilamentSettings, Enum):
     TPU = "GFU99", 200, 250, "TPU"
 
     @classmethod
-    def _missing_(cls, value):
+    def _missing_(cls, value: Any):
         if isinstance(value, str):
             for filament in cls:
                 if value == filament.name:
@@ -171,8 +171,10 @@ class FilamentTray:
             Filament: filament information
         """
         return Filament(
-            self.tray_info_idx,
-            self.nozzle_temp_min,
-            self.nozzle_temp_max,
-            self.tray_type
+            AMSFilamentSettings(
+                self.tray_info_idx,
+                self.nozzle_temp_min,
+                self.nozzle_temp_max,
+                self.tray_type
+            )
         )
