@@ -5,6 +5,7 @@ and getting all the printer data.
 
 from typing import Any, BinaryIO
 
+from bambulabs_api.ams import AMS
 from bambulabs_api.filament_info import FilamentTray
 from bambulabs_api.states_info import PrintStatus
 from .camera_client import PrinterCamera
@@ -585,3 +586,12 @@ class Printer:
             Filament: filament information
         """
         return self.__printerMQTTClient.vt_tray()
+
+    def ams_info(self) -> dict[int, AMS]:
+        """
+        Get the filament information from the tray information.
+
+        Returns:
+            Filament: filament information
+        """
+        return self.__printerMQTTClient.ams

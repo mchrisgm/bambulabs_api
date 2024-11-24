@@ -1,10 +1,26 @@
+__all__ = ["AMS"]
+
+from typing import Any
 from bambulabs_api.filament_info import FilamentTray
+
+
+class AMSHub:
+    def __init__(self) -> None:
+        self.ams_hub: dict[int, AMS] = {}
+
+    def parse_list(self, ams_dict: list[dict[str, Any]]):
+        for a in ams_dict:
+            id = a.get("id")
+            if id:
+                id = int(id)
+                self.ams_hub[id] = AMS(**a)
 
 
 class AMS:
     """
     Represents the Bambulab's AMS (Automated Material System) system.
     """
+
     def __init__(self, humidity: str, temperature: float) -> None:
         self.filament_trays: dict[int, FilamentTray] = {}
 

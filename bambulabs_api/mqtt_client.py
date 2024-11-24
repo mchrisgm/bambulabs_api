@@ -77,13 +77,13 @@ class PrinterMQTTClient:
         logging.info(f"{self.command_topic}")   # noqa  # pylint: disable=logging-fstring-interpolation
         self._data: dict = {}
 
-        self._ams: dict[int, AMS] = {}
+        self.ams: dict[int, AMS] = {}
 
     def _on_message(
         self,
-        client,
-        userdata,
-        msg
+        client: mqtt.Client,
+        userdata: Any,
+        msg: mqtt.MQTTMessage
     ) -> None:  # pylint: disable=unused-argument  # noqa
         # Current date and time
         doc = json.loads(msg.payload)
@@ -93,12 +93,12 @@ class PrinterMQTTClient:
             logging.debug(self._data)
 
     def _on_connect(
-                self,
-                client: mqtt.Client,
-                userdata: Any,
-                flags: mqtt.ConnectFlags,
-                rc: paho.mqtt.reasoncodes.ReasonCode,
-                properties: paho.mqtt.properties.Properties | None
+        self,
+        client: mqtt.Client,
+        userdata: Any,
+        flags: mqtt.ConnectFlags,
+        rc: paho.mqtt.reasoncodes.ReasonCode,
+        properties: paho.mqtt.properties.Properties | None
     ) -> None:  # pylint: disable=unused-argument
         """
         _on_connect Callback function for when the client
@@ -751,7 +751,7 @@ class PrinterMQTTClient:
                         tray_index=tray_id,
                         filament_tray=FilamentTray.from_dict(tray))
 
-            self._ams[id] = ams
+            self.ams[id] = ams
 
     def vt_tray(self) -> FilamentTray:
         """
