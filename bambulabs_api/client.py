@@ -3,17 +3,17 @@ Client module for connecting to the Bambulabs 3D printer API
 and getting all the printer data.
 """
 
+__all__ = ['Printer']
+
 from typing import Any, BinaryIO
 
-from bambulabs_api.ams import AMS
+from bambulabs_api.ams import AMSHub
 from bambulabs_api.filament_info import FilamentTray
 from bambulabs_api.states_info import PrintStatus
 from .camera_client import PrinterCamera
 from .ftp_client import PrinterFTPClient
 from .mqtt_client import PrinterMQTTClient
 from .filament_info import Filament, AMSFilamentSettings
-
-__all__ = ['Printer']
 
 
 class Printer:
@@ -587,11 +587,11 @@ class Printer:
         """
         return self.__printerMQTTClient.vt_tray()
 
-    def ams_info(self) -> dict[int, AMS]:
+    def ams_hub(self) -> AMSHub:
         """
-        Get the filament information from the tray information.
+        Get ams hub, all AMS's hooked up to printer
 
         Returns:
-            Filament: filament information
+            AMSHub: ams information
         """
-        return self.__printerMQTTClient.ams
+        return self.__printerMQTTClient.ams_hub

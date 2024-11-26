@@ -1,12 +1,12 @@
 __all__ = ["AMSFilamentSettings", "Filament"]
 
-from dataclasses import dataclass
+import dataclasses
 from enum import Enum
-from functools import cached_property
+from functools import cache, cached_property
 from typing import Any
 
 
-@dataclass(frozen=True)
+@dataclasses.dataclass(frozen=True)
 class AMSFilamentSettings:
     """
     Dataclass for the filament settings
@@ -89,7 +89,7 @@ class Filament(AMSFilamentSettings, Enum):
         raise ValueError(f"Filament {value} not found")
 
 
-@dataclass
+@dataclasses.dataclass
 class FilamentTray:
     """
     Dataclass for the filament tray
@@ -134,7 +134,9 @@ class FilamentTray:
     nozzle_temp_min: int
     xcam_info: str
     tray_uuid: str
+    cols: list[str] | None = None
 
+    @cache
     @staticmethod
     def keys() -> set[str]:
         """
@@ -143,7 +145,7 @@ class FilamentTray:
         Returns:
             set[str]: the keys of the dataclass
         """
-        return FilamentTray.__dataclass_fields__.keys()
+        return set(f.name for f in dataclasses.fields(FilamentTray))
 
     @staticmethod
     def from_dict(d: dict[str, Any]):
@@ -157,7 +159,7 @@ class FilamentTray:
         Returns:
             FilamentTray: the dataclass initialized with the dictionary
         """
-        keys = set(FilamentTray.keys())
+        keys = FilamentTray.keys()
         d = {k: v for k, v in d.items() if k in keys}
 
         return FilamentTray(**d)
