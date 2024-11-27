@@ -3,21 +3,24 @@ Client module for connecting to the Bambulabs 3D printer API
 and getting all the printer data.
 """
 
-from typing import BinaryIO
+__all__ = ['Printer']
 
+from typing import Any, BinaryIO
+
+from bambulabs_api.ams import AMSHub
+from bambulabs_api.filament_info import FilamentTray
 from bambulabs_api.states_info import PrintStatus
 from .camera_client import PrinterCamera
 from .ftp_client import PrinterFTPClient
 from .mqtt_client import PrinterMQTTClient
 from .filament_info import Filament, AMSFilamentSettings
 
-__all__ = ['Printer']
-
 
 class Printer:
     """
     Client Class for connecting to the Bambulabs 3D printer
     """
+
     def __init__(self, ip_address: str, access_code: str, serial: str):
         self.ip_address = ip_address
         self.access_code = access_code
@@ -59,6 +62,15 @@ class Printer:
         None if the printer is not printing.
         """
         return self.__printerMQTTClient.get_remaining_time()
+
+    def mqtt_dump(self) -> dict[Any, Any]:
+        """
+        Get the mqtt dump of the messages recorded from the printer
+
+        Returns:
+            dict[Any, Any]: the json that is recorded from the printer.
+        """
+        return self.__printerMQTTClient.dump()
 
     def get_percentage(self) -> (int | str | None):
         """
@@ -325,7 +337,9 @@ class Printer:
     def set_filament_printer(
         self,
         color: str,
-        filament: str | AMSFilamentSettings
+        filament: str | AMSFilamentSettings,
+        ams_id: int = 255,
+        tray_id: int = 254,
     ) -> bool:
         """
         Set the filament of the printer.
@@ -336,6 +350,11 @@ class Printer:
             The color of the filament.
         filament : str | AMSFilamentSettings
             The filament to be set.
+        ams_id : int
+            The index of the AMS, by default the external spool 255.
+        tray_id : int
+            The index of the spool/tray in the ams, by default the external
+            spool 254.
 
         Returns
         -------
@@ -348,7 +367,11 @@ class Printer:
         else:
             raise ValueError(
                 "Filament must be a string or AMSFilamentSettings object")
-        return self.__printerMQTTClient.set_printer_filament(filament, color)
+        return self.__printerMQTTClient.set_printer_filament(
+            filament,
+            color,
+            ams_id=ams_id,
+            tray_id=tray_id)
 
     def set_nozzle_temperature(self, temperature: int) -> bool:
         """
@@ -554,3 +577,21 @@ class Printer:
         """
         return self.__printerMQTTClient.set_auto_step_recovery(
             auto_step_recovery)
+
+    def vt_tray(self) -> FilamentTray:
+        """
+        Get the filament information from the tray information.
+
+        Returns:
+            Filament: filament information
+        """
+        return self.__printerMQTTClient.vt_tray()
+
+    def ams_hub(self) -> AMSHub:
+        """
+        Get ams hub, all AMS's hooked up to printer
+
+        Returns:
+            AMSHub: ams information
+        """
+        return self.__printerMQTTClient.ams_hub

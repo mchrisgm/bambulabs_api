@@ -1,3 +1,5 @@
+__all__ = ["PrinterMQTTClient"]
+
 import json
 import logging
 import ssl
@@ -6,10 +8,11 @@ from typing import Any
 from re import match
 
 import paho.mqtt.client as mqtt
+import paho.mqtt.properties
 import paho.mqtt.reasoncodes
 from paho.mqtt.enums import CallbackAPIVersion
 
-from bambulabs_api.ams import AMS
+from bambulabs_api.ams import AMS, AMSHub
 from bambulabs_api.printer_info import NozzleType
 
 from .filament_info import Filament, FilamentTray
@@ -76,23 +79,31 @@ class PrinterMQTTClient:
         logging.info(f"{self.command_topic}")   # noqa  # pylint: disable=logging-fstring-interpolation
         self._data: dict = {}
 
-        self._ams: dict[int, AMS] = {}
+        self.ams_hub: AMSHub = AMSHub()
 
-    def _on_message(self, client, userdata, msg) -> None:  # pylint: disable=unused-argument  # noqa
+    def _on_message(
+        self,
+        client: mqtt.Client,
+        userdata: Any,
+        msg: mqtt.MQTTMessage
+    ) -> None:  # pylint: disable=unused-argument  # noqa
         # Current date and time
         doc = json.loads(msg.payload)
+        self.manual_update(doc)
 
+    def manual_update(self, doc: dict[str, Any]) -> None:
         if "print" in doc:
             self._data |= doc["print"]
             logging.debug(self._data)
 
     def _on_connect(
-            self,
-            client: mqtt.Client,
-            userdata,
-            flags,
-            rc: paho.mqtt.reasoncodes.ReasonCode,
-            properties) -> None:  # pylint: disable=unused-argument
+        self,
+        client: mqtt.Client,
+        userdata: Any,
+        flags: mqtt.ConnectFlags,
+        rc: paho.mqtt.reasoncodes.ReasonCode,
+        properties: paho.mqtt.properties.Properties | None
+    ) -> None:  # pylint: disable=unused-argument
         """
         _on_connect Callback function for when the client
         receives a CONNACK response from the server.
@@ -139,11 +150,20 @@ class PrinterMQTTClient:
         """
         self._client.loop_stop()
 
+    def dump(self) -> dict[Any, Any]:
+        """
+        Dump the current state of the printer message
+
+        Returns:
+            dict[Any, Any]: The latest data recorded
+        """
+        return self._data
+
     def __get(self, key: str, default: Any = None) -> Any:
-        self.manual_update()
+        self._update()
         return self._data.get(key, default)
 
-    def manual_update(self) -> bool:
+    def _update(self) -> bool:
         if self._last_update + self.printer_timeout < int(datetime.datetime.now().timestamp()):  # noqa
             return False
         return self.__publish_command({"pushing": {"command": "pushall"}})
@@ -249,7 +269,8 @@ class PrinterMQTTClient:
             filename (str): The name of the file to print
             plate_number (int): The plate number to print to
             use_ams (bool, optional): Use the AMS system. Defaults to True.
-            ams_mapping (list[int], optional): The AMS mapping. Defaults to [0].
+            ams_mapping (list[int], optional): The AMS mapping. Defaults to
+                [0].
             skip_objects (list[int] | None, optional): List of gcode objects to
                 skip. Defaults to [].
 
@@ -708,31 +729,44 @@ class PrinterMQTTClient:
         """
         return NozzleType(self.__get("nozzle_diameter", "stainless_steel"))
 
-    def ams_filament(self) -> None:
+    def process_ams(self):
         """
         Get the filament information from the AMS system
         """
         ams_info: dict[str, Any] = self.__get("ams")
 
+        self.ams_hub = AMSHub()
         if not ams_info or ams_info.get("ams_exist_bits", "0") == "0":
             return
 
-        ams_units: list[dict] = ams_info.get("ams", [])
+        ams_units: list[dict[str, Any]] = ams_info.get("ams", [])
 
         for k, v in enumerate(ams_units):
-            humidity = v.get("humidity")
+            humidity = int(v.get("humidity", 0))
             temp = float(v.get("temp", 0.0))
             id = int(v.get("id", k))
 
             ams = AMS(humidity=humidity, temperature=temp)
 
-            trays: list[dict] = v.get("tray")
+            trays: list[dict[str, Any]] = v.get("tray", [])
 
             if trays:
                 for tray_id, tray in enumerate(trays):
                     tray_id = int(tray.get("id", tray_id))
-                    ams.set_filament_tray(
-                        tray_index=tray_id,
-                        filament_tray=FilamentTray.from_dict(tray))
+                    tray_n: Any | None = tray.get("n", None)
+                    if tray_n:
+                        ams.set_filament_tray(
+                            tray_index=tray_id,
+                            filament_tray=FilamentTray.from_dict(tray))
 
-            self._ams[id] = ams
+            self.ams_hub[id] = ams
+
+    def vt_tray(self) -> FilamentTray:
+        """
+        Get Filament Tray of the external spool.
+
+        Returns:
+            FilamentTray: External Spool Filament Tray
+        """
+        tray = self.__get("vt_tray")
+        return FilamentTray.from_dict(tray)

@@ -1,19 +1,56 @@
+__all__ = ["AMS", "AMSHub"]
+
+from typing import Any
 from bambulabs_api.filament_info import FilamentTray
+
+
+class AMSHub:
+    def __init__(self) -> None:
+        self.ams_hub: dict[int, AMS] = {}
+
+    def parse_list(self, ams_dict: list[dict[str, Any]]):
+        for a in ams_dict:
+            id = a.get("id")
+            if id:
+                id = int(id)
+                self.ams_hub[id] = AMS(**a)
+
+    def __getitem__(self, ind: int) -> "AMS":
+        return self.ams_hub[ind]
+
+    def __setitem__(self, ind: int, item: "AMS"):
+        self.ams_hub[ind] = item
 
 
 class AMS:
     """
     Represents the Bambulab's AMS (Automated Material System) system.
     """
-    def __init__(self, humidity: str, temperature: float) -> None:
+
+    def __init__(
+        self, humidity: int, temperature: float, **kwargs: dict[str, Any]
+    ) -> None:
         self.filament_trays: dict[int, FilamentTray] = {}
 
         self.humidity = humidity
         self.temperature = temperature
 
-    def set_filament_tray(self,
-                          filament_tray: FilamentTray,
-                          tray_index: int) -> None:
+        if "tray" in kwargs:
+            self.process_trays(kwargs["tray"])  # type: ignore
+
+    def process_trays(self, trays: list[dict[str, Any]]):
+        for t in trays:
+            id = t.get("id")
+            tray_n: Any | None = t.get("n", None)
+            if id and tray_n is not None:
+                id = int(id)
+                self.filament_trays[id] = FilamentTray.from_dict(t)
+
+    def set_filament_tray(
+        self,
+        filament_tray: FilamentTray,
+        tray_index: int
+    ) -> None:
         """
         Set the filament tray at the given index. Will overwrite any existing
         tray at the given index.
@@ -36,3 +73,9 @@ class AMS:
             FilamentTray | None: filament tray at the given index
         """
         return self.filament_trays.get(tray_index)
+
+    def __getitem__(self, index: int):
+        return self.filament_trays[index]
+
+    def __setitem__(self, index: int, filament_tray: FilamentTray):
+        self.filament_trays[index] = filament_tray
