@@ -1,31 +1,40 @@
 # Bambulabs API
 
-This package provides a Python API for the Bambulabs 3D Printers.
+This package provides a Python API for interacting with BambuLab 3D Printers. The API enables you to control and monitor your printer programmatically, making it an essential tool for developers, makers, and automation enthusiasts. The project is open-source and available on PyPI.
 
 ## Status
 
-[![flake8](https://github.com/acse-ci223/bambulabs_api/actions/workflows/flake8.yml/badge.svg)](https://github.com/acse-ci223/bambulabs_api/actions/workflows/flake8.yml)
-
-[![pytest-unit-tests](https://github.com/acse-ci223/bambulabs_api/actions/workflows/pytest-unit-tests.yml/badge.svg)](https://github.com/acse-ci223/bambulabs_api/actions/workflows/pytest-unit-tests.yml)
-
-[![GitHub Pages](https://github.com/acse-ci223/bambulabs_api/actions/workflows/static.yml/badge.svg)](https://github.com/acse-ci223/bambulabs_api/actions/workflows/static.yml)
-
+[![flake8](https://github.com/mchrisgm/bambulabs_api/actions/workflows/flake8.yml/badge.svg)](https://github.com/mchrisgm/bambulabs_api/actions/workflows/flake8.yml)
+[![pytest-unit-tests](https://github.com/mchrisgm/bambulabs_api/actions/workflows/pytest-unit-tests.yml/badge.svg)](https://github.com/mchrisgm/bambulabs_api/actions/workflows/pytest-unit-tests.yml)
+[![GitHub Pages](https://github.com/mchrisgm/bambulabs_api/actions/workflows/static.yml/badge.svg)](https://github.com/mchrisgm/bambulabs_api/actions/workflows/static.yml)
 
 ## Documentation
 
-The documentation for this package can be found [here](https://acse-ci223.github.io/bambulabs_api/).
+Comprehensive documentation for this package, including API reference and usage guides, can be found [here](https://mchrisgm.github.io/bambulabs_api/).
 
-## Usage
+## Installation
 
-To use the package, run the following command in the terminal:
+To install the package, use `pip`:
 
 ```bash
 pip install bambulabs_api
 ```
 
-## Examples
+Make sure you have Python 3.6 or higher installed.
+
+## Features
+
+- **Connect and control** BambuLab 3D printers programmatically.
+- **Monitor printer status** in real-time.
+- **Execute commands** and manage print jobs directly through Python code.
+- **Easy setup** and integration with Python environments.
+
+## Usage Example
+
+Below is a basic example demonstrating how to connect to a BambuLab 3D printer and retrieve its status using the API:
 
 ```python
+import time
 import bambulabs_api as bl
 
 IP = '192.168.1.200'
@@ -34,7 +43,7 @@ ACCESS_CODE = '12347890'
 
 if __name__ == '__main__':
     print('Starting bambulabs_api example')
-    print('Connecting to Bambulabs 3D printer')
+    print('Connecting to BambuLab 3D printer')
     print(f'IP: {IP}')
     print(f'Serial: {SERIAL}')
     print(f'Access Code: {ACCESS_CODE}')
@@ -42,12 +51,22 @@ if __name__ == '__main__':
     # Create a new instance of the API
     printer = bl.Printer(IP, ACCESS_CODE, SERIAL)
 
-    # Connect to the Bambulabs 3D printer
+    # Connect to the BambuLab 3D printer
     printer.connect()
+
+    time.sleep(2)
 
     # Get the printer status
     status = printer.get_state()
     print(f'Printer status: {status}')
+
+    # Turn the light off
+    printer.turn_light_off()
+
+    time.sleep(2)
+
+    # Turn the light on
+    printer.turn_light_on()
 
     # Disconnect from the Bambulabs 3D printer
     printer.disconnect()
@@ -55,21 +74,73 @@ if __name__ == '__main__':
 
 ## Development
 
-To install the package, make sure conda is installed and then run the following commands in the terminal:
+If you want to contribute to the development of this API or run it in a development environment, follow these steps:
+
+### Prerequisites
+
+- **Conda**: Make sure you have Conda installed on your system.
+- **Git**: Ensure Git is installed for cloning the repository.
+
+### Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/mchrisgm/bambulabs_api.git
+   ```
+
+2. Change directory:
+
+   ```bash
+   cd bambulabs_api
+   ```
+
+3. Create the Conda environment using the provided `environment.yml` file:
+
+   ```bash
+   conda env create -f environment.yml
+   ```
+
+4. Activate the environment:
+
+   ```bash
+   conda activate blapi
+   ```
+
+5. Install the package in development mode:
+
+   ```bash
+   pip install -e .
+   ```
+
+### Running Tests
+
+To ensure everything is working correctly, you can run the tests using `pytest`:
 
 ```bash
-# Clone the repository
-git clone https://github.com/acse-ci223/bambulabs_api.git
-
-# Change directory
-cd bambulabs_api
-
-# Create the 'parally' environment
-conda env create -f environment.yml
-
-# Activate the environment
-conda activate blapi
-
-# Install the package
-pip install -e .
+pytest
 ```
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Open a pull request.
+
+Please make sure your code follows PEP 8 guidelines and that you run tests before submitting a PR.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Support
+
+If you encounter any issues or have questions, feel free to open an issue on the [GitHub repository](https://github.com/mchrisgm/bambulabs_api/issues).
+
+## Acknowledgements
+
+This package is an open-source project developed and maintained by the community. Special thanks to all contributors who have helped improve and enhance this API.
