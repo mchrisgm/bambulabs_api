@@ -60,10 +60,13 @@ class PrinterMQTTClient:
         self._port = port
         self._timeout = timeout
 
+        self.connected = False
+
         self._client: mqtt.Client = mqtt.Client(
-            CallbackAPIVersion.VERSION2,
-            protocol=mqtt.MQTTv311,
+          CallbackAPIVersion.VERSION2,
+          protocol=mqtt.MQTTv311
         )
+
         self._client.username_pw_set(username, access)
         self._client.tls_set(tls_version=ssl.PROTOCOL_TLS,
                              cert_reqs=ssl.CERT_NONE)
@@ -96,6 +99,7 @@ class PrinterMQTTClient:
             self._data |= doc["print"]
             logging.debug(self._data)
 
+
     def _on_connect(
         self,
         client: mqtt.Client,
@@ -119,9 +123,10 @@ class PrinterMQTTClient:
         rc : int
             The connection result
         """
-        logging.debug(f"Connection failed with result code {rc}")
         if rc == 0 or not rc.is_failure:
+            self.connected = True
             logging.debug("Connected successfully")
+
             client.subscribe(f"device/{self._printer_serial}/report")
         else:
             logging.warning(f"Connection failed with result code {rc}")

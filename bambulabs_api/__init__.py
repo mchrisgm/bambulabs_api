@@ -6,7 +6,9 @@ except Exception:
     __version__ = "0.dev0+unknown"
 
 # flake8: noqa: F405
-from .client import *  # noqa
+from .client import Printer  # noqa
+from .cloud import Cloud  # noqa
+
 from .filament_info import Filament, AMSFilamentSettings, FilamentTray  # noqa
 from .states_info import PrintStatus, GcodeState  # noqa
 from .mqtt_client import *  # noqa

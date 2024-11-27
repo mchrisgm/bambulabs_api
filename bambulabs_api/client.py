@@ -21,14 +21,25 @@ class Printer:
     Client Class for connecting to the Bambulabs 3D printer
     """
 
-    def __init__(self, ip_address: str, access_code: str, serial: str):
+    def __init__(self, ip_address: str, access_code: str, serial: str, region="local", username="bblp", token=None):
         self.ip_address = ip_address
         self.access_code = access_code
         self.serial = serial
+        self.region = region
 
-        self.__printerMQTTClient = PrinterMQTTClient(self.ip_address,
-                                                     self.access_code,
-                                                     self.serial)
+        if region == "local":
+            self.mqtt_hostname = self.ip_address
+            self.mqtt_token = access_code
+        else:
+            self.mqtt_hostname = "cn.mqtt.bambulab.com" if region == "China" else "us.mqtt.bambulab.com"
+            self.mqtt_token = token
+
+        self.username = username
+
+        self.__printerMQTTClient = PrinterMQTTClient(hostname=self.mqtt_hostname,
+                                                     access=self.mqtt_token,
+                                                     printer_serial=self.serial,
+                                                     username=self.username)
         self.__printerCamera = PrinterCamera(self.ip_address,
                                              self.access_code)
         self.__printerFTPClient = PrinterFTPClient(self.ip_address,
@@ -40,7 +51,17 @@ class Printer:
         """
         self.__printerMQTTClient.connect()
         self.__printerMQTTClient.start()
-        self.__printerCamera.start()
+
+        # Start the camera if the region is local
+        if self.region == "local":
+            self.__printerCamera.start()
+
+    def is_mqtt_connected(self) -> bool:
+        """
+        MQTT connection state
+        :return: bool
+        """
+        return self.__printerMQTTClient.connected
 
     def disconnect(self):
         """
@@ -216,6 +237,8 @@ class Printer:
             The path of the uploaded file.
         """
         try:
+            if self.region != "local":
+                raise ValueError("File upload is not available for cloud printers")
             if file and filename:
                 return self.__printerFTPClient.upload_file(file, filename)
         except Exception as e:
@@ -424,6 +447,8 @@ class Printer:
         str
             The path of the deleted file.
         """
+        if self.region != "local":
+            raise ValueError("File deletion is not available for cloud printers")
         return self.__printerFTPClient.delete_file(file_path)
 
     def calibrate_printer(self, bed_level: bool = True,
@@ -492,6 +517,8 @@ class Printer:
         str
             Base64 encoded image of the camera frame.
         """
+        if self.region != "local":
+            raise ValueError("Camera is not available for cloud printers")
         return self.__printerCamera.get_frame()
 
     def get_current_state(self) -> PrintStatus:
