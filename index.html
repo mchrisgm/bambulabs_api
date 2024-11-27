@@ -45,6 +45,7 @@
 <li><a class="reference internal" href="#">BambuLabs API</a></li>
 <li><a class="reference internal" href="#description">Description</a></li>
 <li><a class="reference internal" href="#printer">Printer</a><ul>
+<li><a class="reference internal" href="#bambulabs_api.Printer.ams_hub"><code class="docutils literal notranslate"><span class="pre">ams_hub()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.calibrate_printer"><code class="docutils literal notranslate"><span class="pre">calibrate_printer()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.delete_file"><code class="docutils literal notranslate"><span class="pre">delete_file()</span></code></a></li>
@@ -64,6 +65,7 @@
 <li><a class="reference internal" href="#bambulabs_api.Printer.home_printer"><code class="docutils literal notranslate"><span class="pre">home_printer()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.load_filament_spool"><code class="docutils literal notranslate"><span class="pre">load_filament_spool()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.move_z_axis"><code class="docutils literal notranslate"><span class="pre">move_z_axis()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.mqtt_dump"><code class="docutils literal notranslate"><span class="pre">mqtt_dump()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.resume_print"><code class="docutils literal notranslate"><span class="pre">resume_print()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.retry_filament_action"><code class="docutils literal notranslate"><span class="pre">retry_filament_action()</span></code></a></li>
@@ -82,6 +84,7 @@
 <li><a class="reference internal" href="#bambulabs_api.Printer.turn_light_on"><code class="docutils literal notranslate"><span class="pre">turn_light_on()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
 <li><a class="reference internal" href="#bambulabs_api.Printer.upload_file"><code class="docutils literal notranslate"><span class="pre">upload_file()</span></code></a></li>
+<li><a class="reference internal" href="#bambulabs_api.Printer.vt_tray"><code class="docutils literal notranslate"><span class="pre">vt_tray()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#filament">Filament</a><ul>
@@ -202,6 +205,20 @@ including the status of the printer and the status of the print job.</p>
 <section id="printer">
 <h1>Printer<a class="headerlink" href="#printer" title="Link to this heading"></a></h1>
 <p id="module-bambulabs_api.Printer">Client Class for connecting to the Bambulabs 3D printer</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.ams_hub">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">ams_hub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AMSHub</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.ams_hub" title="Link to this definition"></a></dt>
+<dd><p>Get ams hub, all AMS’s hooked up to printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ams information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>AMSHub</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.calibrate_printer">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">calibrate_printer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bed_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_noise_calibration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vibration_compensation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.calibrate_printer" title="Link to this definition"></a></dt>
@@ -480,6 +497,20 @@ NOT IMPLEMENTED YET</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.mqtt_dump">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">mqtt_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bambulabs_api.Printer.mqtt_dump" title="Link to this definition"></a></dt>
+<dd><p>Get the mqtt dump of the messages recorded from the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the json that is recorded from the printer.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[Any, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.pause_print">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">pause_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.pause_print" title="Link to this definition"></a></dt>
 <dd><p>Pause the printer from printing.</p>
@@ -592,13 +623,16 @@ Default True.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.set_filament_printer">
-<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_filament_printer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filament</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">AMSFilamentSettings</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_filament_printer" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">set_filament_printer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filament</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">AMSFilamentSettings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ams_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">255</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tray_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">254</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.set_filament_printer" title="Link to this definition"></a></dt>
 <dd><p>Set the filament of the printer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>color</strong> (<em>str</em>) – The color of the filament.</p></li>
 <li><p><strong>filament</strong> (<em>str</em><em> | </em><em>AMSFilamentSettings</em>) – The filament to be set.</p></li>
+<li><p><strong>ams_id</strong> (<em>int</em>) – The index of the AMS, by default the external spool 255.</p></li>
+<li><p><strong>tray_id</strong> (<em>int</em>) – The index of the spool/tray in the ams, by default the external
+spool 254.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -779,6 +813,20 @@ by default [0].</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.vt_tray">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">vt_tray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">FilamentTray</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.vt_tray" title="Link to this definition"></a></dt>
+<dd><p>Get the filament information from the tray information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>filament information</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filament</p>
 </dd>
 </dl>
 </dd></dl>
