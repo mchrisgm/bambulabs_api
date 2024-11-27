@@ -42,11 +42,15 @@ class AMS:
         for t in trays:
             id = t.get("id")
             tray_n: Any | None = t.get("n", None)
-            if id:
+            if id and tray_n is not None:
                 id = int(id)
                 self.filament_trays[id] = FilamentTray.from_dict(t)
 
-    def set_filament_tray(self, filament_tray: FilamentTray, tray_index: int) -> None:
+    def set_filament_tray(
+        self,
+        filament_tray: FilamentTray,
+        tray_index: int
+    ) -> None:
         """
         Set the filament tray at the given index. Will overwrite any existing
         tray at the given index.

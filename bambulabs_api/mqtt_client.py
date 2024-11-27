@@ -269,7 +269,8 @@ class PrinterMQTTClient:
             filename (str): The name of the file to print
             plate_number (int): The plate number to print to
             use_ams (bool, optional): Use the AMS system. Defaults to True.
-            ams_mapping (list[int], optional): The AMS mapping. Defaults to [0].
+            ams_mapping (list[int], optional): The AMS mapping. Defaults to
+                [0].
             skip_objects (list[int] | None, optional): List of gcode objects to
                 skip. Defaults to [].
 
