@@ -594,4 +594,5 @@ class Printer:
         Returns:
             AMSHub: ams information
         """
+        self.__printerMQTTClient.process_ams()
         return self.__printerMQTTClient.ams_hub
