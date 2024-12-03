@@ -1,9 +1,12 @@
 import time
 import bambulabs_api as bl
+import os
 
 IP = '192.168.1.200'
 SERIAL = 'AC12309BH109'
 ACCESS_CODE = '12347890'
+
+env = os.getenv("env", "debug")
 
 if __name__ == '__main__':
     print('Starting bambulabs_api example')
@@ -29,6 +32,12 @@ if __name__ == '__main__':
             print(
                 f'Printer status: {status}, Bed temp: {bed_temperature}, '
                 f'Nozzle temp: {nozzle_temperature}')
+
+            if env == "debug":
+                print("=" * 100)
+                print("Printer MQTT Dump")
+                print(printer.mqtt_dump())
+                print("=" * 100)
     finally:
         # Disconnect from the Bambulabs 3D printer
         printer.disconnect()
