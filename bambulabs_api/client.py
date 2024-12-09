@@ -5,8 +5,6 @@ and getting all the printer data.
 
 __all__ = ['Printer']
 
-import base64
-from io import BytesIO
 from typing import Any, BinaryIO
 
 from bambulabs_api.ams import AMSHub
@@ -16,7 +14,6 @@ from .camera_client import PrinterCamera
 from .ftp_client import PrinterFTPClient
 from .mqtt_client import PrinterMQTTClient
 from .filament_info import Filament, AMSFilamentSettings
-from PIL import Image
 
 
 class Printer:
@@ -495,22 +492,7 @@ class Printer:
         str
             Base64 encoded image of the camera frame.
         """
-        return self.get_camera_frame_()
-
-    def get_camera_frame_(self) -> str:
         return self.__printerCamera.get_frame()
-
-    def get_camera_image(self) -> Image.Image:
-        """
-        Get the camera frame of the printer.
-
-        Returns
-        -------
-        Image.Image
-            Pillow Image of printer camera frame.
-        """
-        im = Image.open(BytesIO(base64.b64decode(self.get_camera_frame_())))
-        return im
 
     def get_current_state(self) -> PrintStatus:
         """
