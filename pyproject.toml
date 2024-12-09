@@ -19,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "paho-mqtt>=2.0.0",
+  "pillow>=11.0.0",
 ]
 
 [project.urls]
@@ -29,3 +30,4 @@ Issues = "https://github.com/acse-ci223/bambulabs_api/issues"
 [tool.poetry.dependencies]
 python = "^3.10"
 paho-mqtt = "^2.0.0"
+pillow = "^11.0.0"
