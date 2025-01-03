@@ -12,3 +12,4 @@ dependencies:
   - webcolors
   - pip:
     - paho_mqtt
+    - pillow
