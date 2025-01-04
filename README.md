@@ -104,7 +104,7 @@ If you want to contribute to the development of this API or run it in a developm
 4. Activate the environment:
 
    ```bash
-   conda activate blapi
+   conda activate bl_api
    ```
 
 5. Install the package in development mode:
