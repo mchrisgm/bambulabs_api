@@ -6,7 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "bambulabs_api"
 version = "2.5.5"
 authors = [
-  { name="Chris Ioannidis", email="chris.ioannidis23@imperial.ac.uk" }
+  { name="Chris Ioannidis", email="chris.ioannidis23@imperial.ac.uk" },
+  { name="Haotian Wu"}
 ]
 description = "API for BambuLab 3D Printers over MQTT"
 readme = "README.md"
