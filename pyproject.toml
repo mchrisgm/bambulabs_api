@@ -4,9 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bambulabs_api"
-version = "2.5.2"
+version = "2.5.3"
 authors = [
-  { name="Chris Ioannidis", email="chris.ioannidis23@imperial.ac.uk" }
+  { name="Chris Ioannidis", email="chris.ioannidis23@imperial.ac.uk" },
+  { name="Haotian Wu"}
 ]
 description = "API for BambuLab 3D Printers over MQTT"
 readme = "README.md"
@@ -18,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
   "paho-mqtt>=2.0.0",
+  "pillow>=11.0.0",
 ]
 
 [project.urls]
@@ -28,3 +30,4 @@ Issues = "https://github.com/acse-ci223/bambulabs_api/issues"
 [tool.poetry.dependencies]
 python = "^3.10"
 paho-mqtt = "^2.0.0"
+pillow = "^11.0.0"
