@@ -186,6 +186,15 @@ class PrinterMQTTClient:
         """
         return self.__get("mc_remaining_time", None)
 
+    def get_sequence_id(self):
+        """
+        Get the current sequence ID
+
+        Returns:
+            int : Get the current sequence ID
+        """
+        return int(self.__get("sequence_id", 0))
+
     def get_printer_state(self) -> GcodeState:
         """
         Get the printer state
@@ -260,7 +269,7 @@ class PrinterMQTTClient:
                         plate_number: int,
                         use_ams: bool = True,
                         ams_mapping: list[int] = [0],
-                        skip_objects: list[int] | None = None
+                        skip_objects: list[int] | None = None,
                         ) -> bool:
         """
         Start the print
@@ -286,12 +295,14 @@ class PrinterMQTTClient:
                 {
                     "command": "project_file",
                     "param": f"Metadata/plate_{int(plate_number)}.gcode",
-                    "subtask_name": filename,
+                    "file": filename,
                     "bed_leveling": True,
-                    "flow_calibration": True,
-                    "vibration_calibration": True,
-                    "url": f"ftp://{filename}",
+                    "bed_type": "textured_plate",
+                    "flow_cali": True,
+                    "vibration_cali": True,
+                    "url": f"ftp:///{filename}",
                     "layer_inspect": False,
+                    "sequence_id": "10000000",
                     "use_ams": bool(use_ams),
                     "ams_mapping": list(ams_mapping),
                     "skip_objects": skip_objects,
