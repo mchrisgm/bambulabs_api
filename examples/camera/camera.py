@@ -1,9 +1,13 @@
 import time
 import bambulabs_api as bl
+import os
 
 IP = '192.168.1.200'
 SERIAL = 'AC12309BH109'
 ACCESS_CODE = '12347890'
+
+env = os.getenv("env", "debug")
+
 
 if __name__ == '__main__':
     print('Starting bambulabs_api example')
@@ -19,7 +23,6 @@ if __name__ == '__main__':
     printer.connect()
 
     time.sleep(5)
-    frame = printer.get_camera_image()
-    frame.save("image.png")
 
-    printer.disconnect()
+    image = printer.get_camera_image()
+    image.save("example.png")
