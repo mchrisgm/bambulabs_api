@@ -2,32 +2,13 @@
 API
 ===
 
-Printer
--------
-.. automodule:: bambulabs_api.Printer
-  :members:
-  :imported-members:
+.. toctree::
+  :maxdepth: 1
 
-Filament
---------
-.. automodule:: bambulabs_api.Filament
-  :members:
-  :imported-members:
-
-AMSFilamentSettings
--------------------
-.. automodule:: bambulabs_api.AMSFilamentSettings
-  :members:
-  :imported-members:
-
-PrintStatus
------------
-.. automodule:: bambulabs_api.PrintStatus
-  :members:
-  :imported-members:
-
-GcodeState
-----------
-.. automodule:: bambulabs_api.GcodeState
-  :members:
-  :imported-members:
+  API Intro <self>
+  Printer Client <api/printer.rst>
+  MQTT Client <api/mqtt_client.rst>
+  Filament <api/filament.rst>
+  AMS Filament <api/ams_filament.rst>
+  Print Status <api/print_status.rst>
+  Gcode State <api/gcode_state.rst>
