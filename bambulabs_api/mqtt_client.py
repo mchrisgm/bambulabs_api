@@ -50,8 +50,16 @@ class PrinterMQTTClient:
     Printer class for handling MQTT communication with the printer
     """
 
-    def __init__(self, hostname: str, access: str, printer_serial: str,
-                 username: str = "bblp", port: int = 8883, timeout: int = 60):
+    def __init__(
+            self,
+            hostname: str,
+            access: str,
+            printer_serial: str,
+            username: str = "bblp",
+            port: int = 8883,
+            timeout: int = 60,
+            pushall: int = 60,
+    ):
         self._hostname = hostname
         self._access = access
         self._username = username
@@ -65,21 +73,26 @@ class PrinterMQTTClient:
             protocol=mqtt.MQTTv311,
         )
         self._client.username_pw_set(username, access)
-        self._client.tls_set(tls_version=ssl.PROTOCOL_TLS,
-                             cert_reqs=ssl.CERT_NONE)
+        self._client.tls_set(  # type: ignore
+            tls_version=ssl.PROTOCOL_TLS,
+            cert_reqs=ssl.CERT_NONE
+        )
         self._client.tls_insecure_set(True)
 
         self._client.on_connect = self._on_connect
         self._client.on_message = self._on_message
 
-        self.printer_timeout: int = 10
-        self._last_update: int = int(datetime.datetime.now().timestamp())
+        self.pushall_timeout: int = pushall
+        self._last_update: int = 0
 
         self.command_topic = f"device/{printer_serial}/request"
-        logging.info(f"{self.command_topic}")   # noqa  # pylint: disable=logging-fstring-interpolation
-        self._data: dict = {}
+        logging.info(f"{self.command_topic}")   # noqa: E501  # pylint: disable=logging-fstring-interpolation
+        self._data: dict[Any, Any] = {}
 
         self.ams_hub: AMSHub = AMSHub()
+
+    def ready(self) -> bool:
+        return bool(self._data)
 
     def _on_message(
         self,
@@ -132,10 +145,20 @@ class PrinterMQTTClient:
         """
         self._client.connect_async(self._hostname, self._port, self._timeout)
 
-    def start(self):
+    def start(self, pushall: bool = True):
         """
         Starts the MQTT client
+
+        Parameters
+        ----------
+        pushall : bool
+            Force update the printer on start
+
+        Returns:
+            MQTTErrorCode: error code of loop start
         """
+        if pushall:
+            self.pushall()
         return self._client.loop_start()
 
     def loop_forever(self):
@@ -164,8 +187,19 @@ class PrinterMQTTClient:
         return self._data.get(key, default)
 
     def _update(self) -> bool:
-        if self._last_update + self.printer_timeout < int(datetime.datetime.now().timestamp()):  # noqa
+        current_time = int(datetime.datetime.now().timestamp())
+        if self._last_update + self.pushall_timeout < current_time:  # noqa
             return False
+        self._last_update = current_time
+        return self.pushall()
+
+    def pushall(self) -> bool:
+        """
+        Force the printer to send a full update of the current state
+
+        Returns:
+            bool: success state of the pushall command
+        """
         return self.__publish_command({"pushing": {"command": "pushall"}})
 
     def get_last_print_percentage(self) -> int | str | None:
@@ -402,7 +436,7 @@ class PrinterMQTTClient:
                 raise ValueError("Invalid G-code command")
 
             return self.__send_gcode_line(gcode_command)
-        elif isinstance(gcode_command, list):
+        elif isinstance(gcode_command, list):  # type: ignore
             if any(not is_valid_gcode(g) for g in gcode_command):
                 raise ValueError("Invalid G-code command")
             return self.__send_gcode_line("\n".join(gcode_command))
@@ -471,7 +505,7 @@ class PrinterMQTTClient:
                 raise ValueError(f"Fan Speed {speed} is not between 0 and 255")
             return self.__send_gcode_line(f"M106 P{fan_num} S{speed}\n")
 
-        elif isinstance(speed, float):
+        elif isinstance(speed, float):  # type: ignore
             if speed < 0 or speed > 1:
                 raise ValueError(f"Fan Speed {speed} is not between 0 and 1")
             speed = round(255 / speed)
