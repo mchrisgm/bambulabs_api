@@ -14,11 +14,11 @@ __all__ = ["PrinterCamera"]
 
 class PrinterCamera:
     def __init__(
-                self,
-                hostname: str,
-                access_code: str,
-                port: int = 6000,
-                username: str = 'bblp'
+        self,
+        hostname: str,
+        access_code: str,
+        port: int = 6000,
+        username: str = 'bblp'
     ):
         self.__username = username
         self.__access_code = str(access_code)

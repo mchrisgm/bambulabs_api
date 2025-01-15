@@ -172,11 +172,6 @@ class PrinterMQTTClient:
         """
         Starts the MQTT client
 
-        Parameters
-        ----------
-        pushall : bool
-            Force update the printer on start
-
         Returns:
             MQTTErrorCode: error code of loop start
         """
@@ -185,8 +180,11 @@ class PrinterMQTTClient:
     def loop_forever(self):
         """
         Loop client forever (synchonous, blocking call)
+
+        Returns:
+            MQTTErrorCode: error code of loop start
         """
-        self._client.loop_forever()
+        return self._client.loop_forever()
 
     def stop(self):
         """
@@ -218,6 +216,8 @@ class PrinterMQTTClient:
     def pushall(self) -> bool:
         """
         Force the printer to send a full update of the current state
+        Warning: Pushall should be used sparingly - large numbers of updates
+        can result in the printer lagging.
 
         Returns:
             bool: success state of the pushall command
