@@ -4,7 +4,7 @@ import json
 import logging
 import ssl
 import datetime
-from typing import Any
+from typing import Any, Callable
 from re import match
 
 import paho.mqtt.client as mqtt
@@ -59,6 +59,7 @@ class PrinterMQTTClient:
             port: int = 8883,
             timeout: int = 60,
             pushall: int = 60,
+            strict: bool = False,
     ):
         self._hostname = hostname
         self._access = access
@@ -90,6 +91,21 @@ class PrinterMQTTClient:
         self._data: dict[Any, Any] = {}
 
         self.ams_hub: AMSHub = AMSHub()
+        self.strict = strict
+
+    @staticmethod
+    def __ready(func: Callable[..., Any]) -> Callable[..., Any]:  # noqa # pylint: disable=missing-function-docstring, no-self-argument
+        def wrapper(
+                self: 'PrinterMQTTClient',
+                *args: list[Any],
+                **kwargs: dict[str, Any]) -> Any:
+            if not self.ready():
+                logging.error("Printer Values Not Available Yet")
+
+                if self.strict:
+                    raise Exception("Printer not found")
+            return func(self, *args, **kwargs)  # noqa # pylint: disable=not-callable
+        return wrapper
 
     def ready(self) -> bool:
         return bool(self._data)
@@ -182,6 +198,7 @@ class PrinterMQTTClient:
         """
         return self._data
 
+    @__ready
     def __get(self, key: str, default: Any = None) -> Any:
         self._update()
         return self._data.get(key, default)
