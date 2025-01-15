@@ -29,9 +29,9 @@ class Printer:
         self.access_code = access_code
         self.serial = serial
 
-        self.__printerMQTTClient = PrinterMQTTClient(self.ip_address,
-                                                     self.access_code,
-                                                     self.serial)
+        self.mqtt_client = PrinterMQTTClient(self.ip_address,
+                                             self.access_code,
+                                             self.serial)
         self.__printerCamera = PrinterCamera(self.ip_address,
                                              self.access_code)
         self.__printerFTPClient = PrinterFTPClient(self.ip_address,
@@ -41,15 +41,15 @@ class Printer:
         """
         Connect to the printer
         """
-        self.__printerMQTTClient.connect()
-        self.__printerMQTTClient.start()
+        self.mqtt_client.connect()
+        self.mqtt_client.start()
         self.__printerCamera.start()
 
     def disconnect(self):
         """
         Disconnect from the printer
         """
-        self.__printerMQTTClient.stop()
+        self.mqtt_client.stop()
         self.__printerCamera.stop()
 
     def get_time(self) -> (int | str | None):
@@ -64,7 +64,7 @@ class Printer:
             "Unknown" if the remaining time is unknown.
         None if the printer is not printing.
         """
-        return self.__printerMQTTClient.get_remaining_time()
+        return self.mqtt_client.get_remaining_time()
 
     def mqtt_dump(self) -> dict[Any, Any]:
         """
@@ -73,7 +73,7 @@ class Printer:
         Returns:
             dict[Any, Any]: the json that is recorded from the printer.
         """
-        return self.__printerMQTTClient.dump()
+        return self.mqtt_client.dump()
 
     def get_percentage(self) -> (int | str | None):
         """
@@ -87,7 +87,7 @@ class Printer:
             "Unknown" if the percentage is unknown.
         None if the printer is not printing.
         """
-        return self.__printerMQTTClient.get_last_print_percentage()
+        return self.mqtt_client.get_last_print_percentage()
 
     def get_state(self) -> str:
         """
@@ -98,7 +98,7 @@ class Printer:
         str
             The state of the printer.
         """
-        return self.__printerMQTTClient.get_printer_state().name
+        return self.mqtt_client.get_printer_state().name
 
     def get_print_speed(self) -> int:
         """
@@ -109,7 +109,7 @@ class Printer:
         int
             The print speed of the printer.
         """
-        return self.__printerMQTTClient.get_print_speed()
+        return self.mqtt_client.get_print_speed()
 
     def get_bed_temperature(self) -> float | None:
         """
@@ -122,7 +122,7 @@ class Printer:
             The bed temperature of the printer.
         None if the printer is not printing.
         """
-        return self.__printerMQTTClient.get_bed_temperature()
+        return self.mqtt_client.get_bed_temperature()
 
     def get_nozzle_temperature(self) -> float | None:
         """
@@ -135,7 +135,7 @@ class Printer:
             The nozzle temperature of the printer.
         None if the printer is not printing.
         """
-        return self.__printerMQTTClient.get_nozzle_temperature()
+        return self.mqtt_client.get_nozzle_temperature()
 
     def get_file_name(self) -> str:
         """
@@ -146,7 +146,7 @@ class Printer:
         str
             The name of the file being printed.
         """
-        return self.__printerMQTTClient.get_file_name()
+        return self.mqtt_client.get_file_name()
 
     def get_light_state(self) -> str:
         """
@@ -157,7 +157,7 @@ class Printer:
         str
             The state of the printer light.
         """
-        return self.__printerMQTTClient.get_light_state()
+        return self.mqtt_client.get_light_state()
 
     def turn_light_on(self) -> bool:
         """
@@ -168,7 +168,7 @@ class Printer:
         bool
             True if the light is turned on successfully.
         """
-        return self.__printerMQTTClient.turn_light_on()
+        return self.mqtt_client.turn_light_on()
 
     def turn_light_off(self) -> bool:
         """
@@ -179,7 +179,7 @@ class Printer:
         bool
             True if the light is turned off successfully.
         """
-        return self.__printerMQTTClient.turn_light_off()
+        return self.mqtt_client.turn_light_off()
 
     def gcode(self, gcode: str | list[str]) -> bool:
         """
@@ -200,7 +200,7 @@ class Printer:
         ValueError
             If the gcode command is invalid.
         """
-        return self.__printerMQTTClient.send_gcode(gcode)
+        return self.mqtt_client.send_gcode(gcode)
 
     def upload_file(self, file: BinaryIO, filename: str = "ftp_upload.gcode") -> str:  # noqa
         """
@@ -255,11 +255,11 @@ class Printer:
         bool
             True if the file is printed successfully.
         """
-        return self.__printerMQTTClient.start_print_3mf(filename,
-                                                        plate_number,
-                                                        use_ams,
-                                                        ams_mapping,
-                                                        skip_objects)
+        return self.mqtt_client.start_print_3mf(filename,
+                                                plate_number,
+                                                use_ams,
+                                                ams_mapping,
+                                                skip_objects)
 
     def stop_print(self) -> bool:
         """
@@ -270,7 +270,7 @@ class Printer:
         bool
             True if the printer is stopped successfully.
         """
-        return self.__printerMQTTClient.stop_print()
+        return self.mqtt_client.stop_print()
 
     def pause_print(self) -> bool:
         """
@@ -281,7 +281,7 @@ class Printer:
         bool
             True if the printer is paused successfully.
         """
-        return self.__printerMQTTClient.pause_print()
+        return self.mqtt_client.pause_print()
 
     def resume_print(self) -> bool:
         """
@@ -292,7 +292,7 @@ class Printer:
         bool
             True if the printer is resumed successfully.
         """
-        return self.__printerMQTTClient.resume_print()
+        return self.mqtt_client.resume_print()
 
     def set_bed_temperature(self, temperature: int) -> bool:
         """
@@ -308,7 +308,7 @@ class Printer:
         bool
             True if the temperature is set successfully.
         """
-        return self.__printerMQTTClient.set_bed_temperature(temperature)
+        return self.mqtt_client.set_bed_temperature(temperature)
 
     def home_printer(self) -> bool:
         """
@@ -319,7 +319,7 @@ class Printer:
         bool
             True if the printer is homed successfully.
         """
-        return self.__printerMQTTClient.auto_home()
+        return self.mqtt_client.auto_home()
 
     def move_z_axis(self, height: int) -> bool:
         """
@@ -335,7 +335,7 @@ class Printer:
         bool
             True if the Z-axis is moved successfully.
         """
-        return self.__printerMQTTClient.set_bed_height(height)
+        return self.mqtt_client.set_bed_height(height)
 
     def set_filament_printer(
         self,
@@ -370,7 +370,7 @@ class Printer:
         else:
             raise ValueError(
                 "Filament must be a string or AMSFilamentSettings object")
-        return self.__printerMQTTClient.set_printer_filament(
+        return self.mqtt_client.set_printer_filament(
             filament,
             color,
             ams_id=ams_id,
@@ -390,7 +390,7 @@ class Printer:
         bool
             True if the temperature is set successfully.
         """
-        return self.__printerMQTTClient.set_nozzle_temperature(temperature)
+        return self.mqtt_client.set_nozzle_temperature(temperature)
 
     def set_print_speed(self, speed_lvl: int) -> bool:
         """
@@ -411,7 +411,7 @@ class Printer:
             True if the speed level is set successfully.
         """
         assert 0 <= speed_lvl <= 3, "Speed level must be between 0 and 3"
-        return self.__printerMQTTClient.set_print_speed_lvl(speed_lvl)
+        return self.mqtt_client.set_print_speed_lvl(speed_lvl)
 
     def delete_file(self, file_path: str) -> str:
         """
@@ -449,9 +449,9 @@ class Printer:
         bool
             True if the printer is calibrated successfully.
         """
-        return self.__printerMQTTClient.calibration(bed_level,
-                                                    motor_noise_calibration,
-                                                    vibration_compensation)
+        return self.mqtt_client.calibration(bed_level,
+                                            motor_noise_calibration,
+                                            vibration_compensation)
 
     def load_filament_spool(self) -> bool:
         """
@@ -462,7 +462,7 @@ class Printer:
         bool
             True if the filament spool is loaded successfully.
         """
-        return self.__printerMQTTClient.load_filament_spool()
+        return self.mqtt_client.load_filament_spool()
 
     def unload_filament_spool(self) -> bool:
         """
@@ -473,7 +473,7 @@ class Printer:
         bool
             True if the filament spool is unloaded successfully.
         """
-        return self.__printerMQTTClient.unload_filament_spool()
+        return self.mqtt_client.unload_filament_spool()
 
     def retry_filament_action(self) -> bool:
         """
@@ -484,7 +484,7 @@ class Printer:
         bool
             True if the filament action is retried successfully.
         """
-        return self.__printerMQTTClient.resume_filament_action()
+        return self.mqtt_client.resume_filament_action()
 
     def get_camera_frame(self) -> str:
         """
@@ -521,7 +521,7 @@ class Printer:
         PrintStatus
             The current state of the printer.
         """
-        return self.__printerMQTTClient.get_current_state()
+        return self.mqtt_client.get_current_state()
 
     def get_skipped_objects(self) -> list[int]:
         """
@@ -532,7 +532,7 @@ class Printer:
         PrintStatus
             The current state of the printer.
         """
-        return self.__printerMQTTClient.get_skipped_objects()
+        return self.mqtt_client.get_skipped_objects()
 
     def skip_objects(self, obj_list: list[int]) -> bool:
         """
@@ -544,7 +544,7 @@ class Printer:
         Returns:
             bool: if publish command is successful
         """
-        return self.__printerMQTTClient.skip_objects(obj_list=obj_list)
+        return self.mqtt_client.skip_objects(obj_list=obj_list)
 
     def set_part_fan_speed(self, speed: int | float) -> bool:
         """
@@ -556,7 +556,7 @@ class Printer:
         Returns:
             bool: success of setting the fan speed
         """
-        return self.__printerMQTTClient.set_part_fan_speed(speed)
+        return self.mqtt_client.set_part_fan_speed(speed)
 
     def set_aux_fan_speed(self, speed: int | float) -> bool:
         """
@@ -568,7 +568,7 @@ class Printer:
         Returns:
             bool: success of setting the fan speed
         """
-        return self.__printerMQTTClient.set_aux_fan_speed(speed)
+        return self.mqtt_client.set_aux_fan_speed(speed)
 
     def set_chamber_fan_speed(self, speed: int | float) -> bool:
         """
@@ -580,7 +580,7 @@ class Printer:
         Returns:
             bool: success of setting the fan speed
         """
-        return self.__printerMQTTClient.set_chamber_fan_speed(speed)
+        return self.mqtt_client.set_chamber_fan_speed(speed)
 
     def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
         """
@@ -593,7 +593,7 @@ class Printer:
         Returns:
             bool: success of the auto step recovery command command
         """
-        return self.__printerMQTTClient.set_auto_step_recovery(
+        return self.mqtt_client.set_auto_step_recovery(
             auto_step_recovery)
 
     def vt_tray(self) -> FilamentTray:
@@ -603,7 +603,7 @@ class Printer:
         Returns:
             Filament: filament information
         """
-        return self.__printerMQTTClient.vt_tray()
+        return self.mqtt_client.vt_tray()
 
     def ams_hub(self) -> AMSHub:
         """
@@ -612,5 +612,5 @@ class Printer:
         Returns:
             AMSHub: ams information
         """
-        self.__printerMQTTClient.process_ams()
-        return self.__printerMQTTClient.ams_hub
+        self.mqtt_client.process_ams()
+        return self.mqtt_client.ams_hub

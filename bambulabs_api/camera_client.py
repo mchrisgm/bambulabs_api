@@ -13,7 +13,13 @@ __all__ = ["PrinterCamera"]
 
 
 class PrinterCamera:
-    def __init__(self, hostname, access_code, port=6000, username='bblp'):
+    def __init__(
+                self,
+                hostname: str,
+                access_code: str,
+                port: int = 6000,
+                username: str = 'bblp'
+    ):
         self.__username = username
         self.__access_code = str(access_code)
         self.__hostname = str(hostname)
@@ -23,11 +29,14 @@ class PrinterCamera:
         self.__thread.daemon = True
 
         self.last_frame = None
+        self.alive = False
 
     def start(self):
+        self.alive = True
         self.__thread.start()
 
     def stop(self):
+        self.alive = False
         self.__thread.join()
 
     def get_frame(self):
@@ -65,7 +74,7 @@ class PrinterCamera:
 
         read_chunk_size = 4096  # 4096 is the max we'll get even if we increase this.  # noqa
 
-        while True:
+        while self.alive:
             try:
                 with socket.create_connection((self.__hostname, self.__port)) as sock:  # noqa
                     try:
@@ -88,7 +97,7 @@ class PrinterCamera:
                     sslSock.setblocking(False)
                     sslSock.settimeout(5.0)
 
-                    while True:
+                    while self.alive:
                         try:
                             logging.debug("Reading chunk...")
                             dr = sslSock.recv(read_chunk_size)

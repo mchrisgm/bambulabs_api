@@ -58,7 +58,8 @@ class PrinterMQTTClient:
             username: str = "bblp",
             port: int = 8883,
             timeout: int = 60,
-            pushall: int = 60,
+            pushall_timeout: int = 60,
+            pushall_on_connect: bool = True,
             strict: bool = False,
     ):
         self._hostname = hostname
@@ -83,7 +84,8 @@ class PrinterMQTTClient:
         self._client.on_connect = self._on_connect
         self._client.on_message = self._on_message
 
-        self.pushall_timeout: int = pushall
+        self.pushall_timeout: int = pushall_timeout
+        self.pushall_aggressive = pushall_on_connect
         self._last_update: int = 0
 
         self.command_topic = f"device/{printer_serial}/request"
@@ -148,10 +150,15 @@ class PrinterMQTTClient:
         rc : int
             The connection result
         """
-        logging.debug(f"Connection failed with result code {rc}")
+        logging.info(f"Connection result code: {rc}")
         if rc == 0 or not rc.is_failure:
-            logging.debug("Connected successfully")
+            logging.info("Connected successfully")
             client.subscribe(f"device/{self._printer_serial}/report")
+            if self.pushall_aggressive:
+                self._client.publish(
+                    self.command_topic, json.dumps(
+                        {"pushing": {"command": "pushall"}}))
+            logging.info("Connection Handshake Completed")
         else:
             logging.warning(f"Connection failed with result code {rc}")
 
@@ -161,7 +168,7 @@ class PrinterMQTTClient:
         """
         self._client.connect_async(self._hostname, self._port, self._timeout)
 
-    def start(self, pushall: bool = True):
+    def start(self):
         """
         Starts the MQTT client
 
@@ -173,8 +180,6 @@ class PrinterMQTTClient:
         Returns:
             MQTTErrorCode: error code of loop start
         """
-        if pushall:
-            self.pushall()
         return self._client.loop_start()
 
     def loop_forever(self):
@@ -205,7 +210,7 @@ class PrinterMQTTClient:
 
     def _update(self) -> bool:
         current_time = int(datetime.datetime.now().timestamp())
-        if self._last_update + self.pushall_timeout < current_time:  # noqa
+        if self._last_update + self.pushall_timeout > current_time:
             return False
         self._last_update = current_time
         return self.pushall()
