@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Printer MQTT Client &mdash; BambuLabs API  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filament" href="filament.html" />
+    <link rel="prev" title="Printer" href="printer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            BambuLabs API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">BambuLabs API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html">API Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="printer.html">Printer Client</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">MQTT Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.auto_home"><code class="docutils literal notranslate"><span class="pre">auto_home()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.calibration"><code class="docutils literal notranslate"><span class="pre">calibration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.current_layer_num"><code class="docutils literal notranslate"><span class="pre">current_layer_num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.gcode_file_prepare_percentage"><code class="docutils literal notranslate"><span class="pre">gcode_file_prepare_percentage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_current_state"><code class="docutils literal notranslate"><span class="pre">get_current_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_file_name"><code class="docutils literal notranslate"><span class="pre">get_file_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_last_print_percentage"><code class="docutils literal notranslate"><span class="pre">get_last_print_percentage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_light_state"><code class="docutils literal notranslate"><span class="pre">get_light_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature"><code class="docutils literal notranslate"><span class="pre">get_nozzle_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_nozzle_temperature_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_print_speed"><code class="docutils literal notranslate"><span class="pre">get_print_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_printer_state"><code class="docutils literal notranslate"><span class="pre">get_printer_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_remaining_time"><code class="docutils literal notranslate"><span class="pre">get_remaining_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_sequence_id"><code class="docutils literal notranslate"><span class="pre">get_sequence_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_skipped_objects"><code class="docutils literal notranslate"><span class="pre">get_skipped_objects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.load_filament_spool"><code class="docutils literal notranslate"><span class="pre">load_filament_spool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.loop_forever"><code class="docutils literal notranslate"><span class="pre">loop_forever()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.nozzle_diameter"><code class="docutils literal notranslate"><span class="pre">nozzle_diameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.nozzle_type"><code class="docutils literal notranslate"><span class="pre">nozzle_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.process_ams"><code class="docutils literal notranslate"><span class="pre">process_ams()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.pushall"><code class="docutils literal notranslate"><span class="pre">pushall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.resume_filament_action"><code class="docutils literal notranslate"><span class="pre">resume_filament_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.resume_print"><code class="docutils literal notranslate"><span class="pre">resume_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.send_gcode"><code class="docutils literal notranslate"><span class="pre">send_gcode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_auto_step_recovery"><code class="docutils literal notranslate"><span class="pre">set_auto_step_recovery()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_aux_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_aux_fan_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_bed_height"><code class="docutils literal notranslate"><span class="pre">set_bed_height()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_bed_temperature"><code class="docutils literal notranslate"><span class="pre">set_bed_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_chamber_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_chamber_fan_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_nozzle_temperature"><code class="docutils literal notranslate"><span class="pre">set_nozzle_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_part_fan_speed"><code class="docutils literal notranslate"><span class="pre">set_part_fan_speed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_print_speed_lvl"><code class="docutils literal notranslate"><span class="pre">set_print_speed_lvl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.set_printer_filament"><code class="docutils literal notranslate"><span class="pre">set_printer_filament()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.skip_objects"><code class="docutils literal notranslate"><span class="pre">skip_objects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.start_print_3mf"><code class="docutils literal notranslate"><span class="pre">start_print_3mf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.stop"><code class="docutils literal notranslate"><span class="pre">stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.stop_print"><code class="docutils literal notranslate"><span class="pre">stop_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.total_layer_num"><code class="docutils literal notranslate"><span class="pre">total_layer_num()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.turn_light_off"><code class="docutils literal notranslate"><span class="pre">turn_light_off()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.turn_light_on"><code class="docutils literal notranslate"><span class="pre">turn_light_on()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.vt_tray"><code class="docutils literal notranslate"><span class="pre">vt_tray()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="filament.html">Filament</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ams_filament.html">AMS Filament</a></li>
+<li class="toctree-l2"><a class="reference internal" href="print_status.html">Print Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gcode_state.html">Gcode State</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release Notes</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">BambuLabs API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api.html">API</a></li>
+      <li class="breadcrumb-item active">Printer MQTT Client</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/mqtt_client.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-bambulabs_api.PrinterMQTTClient">
+<span id="printer-mqtt-client"></span><h1>Printer MQTT Client<a class="headerlink" href="#module-bambulabs_api.PrinterMQTTClient" title="Link to this heading"></a></h1>
+<p>Printer class for handling MQTT communication with the printer</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.auto_home">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">auto_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.auto_home" title="Link to this definition"></a></dt>
+<dd><p>Auto home the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success of the auto home command</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.calibration">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bed_levelling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">motor_noise_cancellation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vibration_compensation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.calibration" title="Link to this definition"></a></dt>
+<dd><p>Start the full calibration process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success of starting the full calibration process</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.connect">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.connect" title="Link to this definition"></a></dt>
+<dd><p>Connects to the MQTT server asynchronously</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.current_layer_num">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">current_layer_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.current_layer_num" title="Link to this definition"></a></dt>
+<dd><p>Get the number of layers of the current/last print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of layers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.dump">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.dump" title="Link to this definition"></a></dt>
+<dd><p>Dump the current state of the printer message</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The latest data recorded</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[Any, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.gcode_file_prepare_percentage">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">gcode_file_prepare_percentage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.gcode_file_prepare_percentage" title="Link to this definition"></a></dt>
+<dd><p>Get the gcode file preparation percentage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>percentage</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_bed_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_bed_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature" title="Link to this definition"></a></dt>
+<dd><p>Get the bed temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bed temperature</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_bed_temperature_target">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_bed_temperature_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature_target" title="Link to this definition"></a></dt>
+<dd><p>Get the bed temperature target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bed temperature target</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_current_state">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_current_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PrintStatus</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_current_state" title="Link to this definition"></a></dt>
+<dd><p>Get the current printer state from stg_cur</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current_state</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>PrintStatus</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_file_name">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_file_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_file_name" title="Link to this definition"></a></dt>
+<dd><p>Get the file name of the current/last print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>file name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_last_print_percentage">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_last_print_percentage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_last_print_percentage" title="Link to this definition"></a></dt>
+<dd><p>Get the last print percentage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The last print percentage</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int | str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_light_state">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_light_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_light_state" title="Link to this definition"></a></dt>
+<dd><p>Get the printer light state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>led_mode</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_nozzle_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_nozzle_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle temperature</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_nozzle_temperature_target">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_nozzle_temperature_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature_target" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle temperature target</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle temperature target</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_print_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_print_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_print_speed" title="Link to this definition"></a></dt>
+<dd><p>Get the print speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>print speed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_printer_state">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_printer_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GcodeState</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_printer_state" title="Link to this definition"></a></dt>
+<dd><p>Get the printer state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>printer state</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>PrintStatus</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_remaining_time">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_remaining_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_remaining_time" title="Link to this definition"></a></dt>
+<dd><p>Get the remaining time for the print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The remaining time for the print</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int | str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_sequence_id">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_sequence_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_sequence_id" title="Link to this definition"></a></dt>
+<dd><p>Get the current sequence ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Get the current sequence ID</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_skipped_objects">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_skipped_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_skipped_objects" title="Link to this definition"></a></dt>
+<dd><p>Get skipped Objects.</p>
+<p>Args:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>if publish command is successful</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.load_filament_spool">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">load_filament_spool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.load_filament_spool" title="Link to this definition"></a></dt>
+<dd><p>Load the filament into the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success of loading the filament</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.loop_forever">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">loop_forever</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.loop_forever" title="Link to this definition"></a></dt>
+<dd><p>Loop client forever (synchonous, blocking call)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error code of loop start</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>MQTTErrorCode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.nozzle_diameter">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">nozzle_diameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.nozzle_diameter" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle diameter currently registered to printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle diameter</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.nozzle_type">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">nozzle_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NozzleType</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.nozzle_type" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle type currently registered to printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle diameter</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.pause_print">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">pause_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.pause_print" title="Link to this definition"></a></dt>
+<dd><p>Pause the print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>print_status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.process_ams">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">process_ams</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.process_ams" title="Link to this definition"></a></dt>
+<dd><p>Get the filament information from the AMS system</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.pushall">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">pushall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.pushall" title="Link to this definition"></a></dt>
+<dd><p>Force the printer to send a full update of the current state
+Warning: Pushall should be used sparingly - large numbers of updates
+can result in the printer lagging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success state of the pushall command</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.resume_filament_action">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">resume_filament_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.resume_filament_action" title="Link to this definition"></a></dt>
+<dd><p>Resume the current filament action</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success of resuming the filament action</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.resume_print">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">resume_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.resume_print" title="Link to this definition"></a></dt>
+<dd><p>Resume the print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>print_status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.send_gcode">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">send_gcode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcode_command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.send_gcode" title="Link to this definition"></a></dt>
+<dd><p>Send a G-code line command to the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gcode_command</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – G-code command(s) to send to the
+printer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_auto_step_recovery">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_auto_step_recovery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_step_recovery</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_auto_step_recovery" title="Link to this definition"></a></dt>
+<dd><p>Set whether or not to set auto step recovery</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>auto_step_recovery</strong> (<em>bool</em>) – flag to set auto step recovery.
+Default True.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of the auto step recovery command command</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_aux_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_aux_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_aux_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the aux part fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_bed_height">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_bed_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_bed_height" title="Link to this definition"></a></dt>
+<dd><p>Set the absolute height of the bed (Z-axis).
+0 is the bed at the nozzle tip and 256 is the bed at the bottom of the printer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>height</strong> (<em>int</em>) – height to set the bed to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of the bed height setting</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_bed_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_bed_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_bed_temperature" title="Link to this definition"></a></dt>
+<dd><p>Set the bed temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>temperature</strong> (<em>int</em>) – The temperature to set the bed to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the bed temperature</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_chamber_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_chamber_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_chamber_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the chamber fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_nozzle_temperature">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_nozzle_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_nozzle_temperature" title="Link to this definition"></a></dt>
+<dd><p>Set the nozzle temperature</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>temperature</strong> (<em>int</em>) – temperature to set the nozzle to</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the nozzle temperature</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_part_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_part_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_part_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Set the fan speed of the part fan</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed</strong> (<em>int</em><em> | </em><em>float</em>) – The speed to set the part fan</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the fan speed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_print_speed_lvl">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_print_speed_lvl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speed_lvl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_print_speed_lvl" title="Link to this definition"></a></dt>
+<dd><p>Set the print speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>speed_lvl</strong> (<em>int</em><em>, </em><em>optional</em>) – Set the speed level of printer. Defaults to 1.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the print speed</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.set_printer_filament">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">set_printer_filament</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filament_material</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Filament</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colour</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ams_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">255</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tray_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">254</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.set_printer_filament" title="Link to this definition"></a></dt>
+<dd><p>Set the printer filament manually fed into the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filament_material</strong> (<em>Filament</em>) – filament material to set.</p></li>
+<li><p><strong>colour</strong> (<em>str</em>) – colour of the filament.</p></li>
+<li><p><strong>ams_id</strong> (<em>int</em>) – ams id. Default to external filament spool: 255.</p></li>
+<li><p><strong>tray_id</strong> (<em>int</em>) – tray id. Default to external filament spool: 254.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>success of setting the printer filament</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.skip_objects">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">skip_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.skip_objects" title="Link to this definition"></a></dt>
+<dd><p>Skip Objects during printing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj_list</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – object list to skip objects.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>if publish command is successful</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.start">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.start" title="Link to this definition"></a></dt>
+<dd><p>Starts the MQTT client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error code of loop start</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>MQTTErrorCode</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.start_print_3mf">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">start_print_3mf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plate_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_ams</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ams_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.start_print_3mf" title="Link to this definition"></a></dt>
+<dd><p>Start the print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The name of the file to print</p></li>
+<li><p><strong>plate_number</strong> (<em>int</em>) – The plate number to print to</p></li>
+<li><p><strong>use_ams</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use the AMS system. Defaults to True.</p></li>
+<li><p><strong>ams_mapping</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – The AMS mapping. Defaults to
+[0].</p></li>
+<li><p><strong>skip_objects</strong> (<em>list</em><em>[</em><em>int</em><em>] </em><em>| </em><em>None</em><em>, </em><em>optional</em>) – List of gcode objects to
+skip. Defaults to [].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>print_status</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.stop">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.stop" title="Link to this definition"></a></dt>
+<dd><p>Stops the MQTT client</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.stop_print">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">stop_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.stop_print" title="Link to this definition"></a></dt>
+<dd><p>Stop the print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>print_status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.total_layer_num">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">total_layer_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.total_layer_num" title="Link to this definition"></a></dt>
+<dd><p>Get the total number of layers of the current/last print</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>number of layers</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.turn_light_off">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">turn_light_off</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.turn_light_off" title="Link to this definition"></a></dt>
+<dd><p>Turn off the printer light</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.turn_light_on">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">turn_light_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.turn_light_on" title="Link to this definition"></a></dt>
+<dd><p>Turn on the printer light</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.unload_filament_spool">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">unload_filament_spool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.unload_filament_spool" title="Link to this definition"></a></dt>
+<dd><p>Unload the filament from the printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>success of unloading the filament</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.vt_tray">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">vt_tray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">FilamentTray</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.vt_tray" title="Link to this definition"></a></dt>
+<dd><p>Get Filament Tray of the external spool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>External Spool Filament Tray</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>FilamentTray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="printer.html" class="btn btn-neutral float-left" title="Printer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="filament.html" class="btn btn-neutral float-right" title="Filament" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

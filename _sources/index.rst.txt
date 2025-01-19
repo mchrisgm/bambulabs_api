@@ -9,11 +9,8 @@ including the status of the printer and the status of the print job.
 
 .. toctree::
   :maxdepth: 2
-  :numbered:
-  :caption: BambuLabs API
 
   self
-  examples
-  api
-
-
+  Examples <examples>
+  API <api>
+  Release Notes <release>
