@@ -7,6 +7,7 @@ dependencies:
   - pip
   - pytest
   - sphinx
+  - myst_parser
   - sphinx_rtd_theme
   - flake8
   - webcolors
