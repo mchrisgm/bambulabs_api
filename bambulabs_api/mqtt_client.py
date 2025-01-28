@@ -733,6 +733,25 @@ class PrinterMQTTClient:
         """
         return float(self.__get("bed_target_temper", 0.0))
 
+    def get_nozzle_type(self) -> str:
+        """
+        Get the nozzle type
+
+        Returns:
+            str: nozzle type
+        """
+        i = 1
+        return str(self.__get("nozzle_type", ""))
+
+    def get_nozzle_diameter(self) -> float:
+        """
+        Get the nozzle diameter
+
+        Returns:
+            float: nozzle diameter
+        """
+        return float(self.__get("nozzle_diameter", 0.0))
+
     def get_nozzle_temperature(self) -> float:
         """
         Get the nozzle temperature

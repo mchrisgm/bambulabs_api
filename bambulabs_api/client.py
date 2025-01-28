@@ -24,15 +24,16 @@ class Printer:
     Client Class for connecting to the Bambulabs 3D printer
     """
 
-    def __init__(self, ip_address: str, access_code: str, serial: str):
+    def __init__(self, ip_address: str, access_code: str, serial: str,camera_thread:bool = True):
         self.ip_address = ip_address
         self.access_code = access_code
         self.serial = serial
-
+        self.camera_thread = camera_thread
         self.mqtt_client = PrinterMQTTClient(self.ip_address,
                                              self.access_code,
                                              self.serial)
-        self.__printerCamera = PrinterCamera(self.ip_address,
+        if self.camera_thread:
+            self.__printerCamera = PrinterCamera(self.ip_address,
                                              self.access_code)
         self.__printerFTPClient = PrinterFTPClient(self.ip_address,
                                                    self.access_code)
@@ -43,14 +44,20 @@ class Printer:
         """
         self.mqtt_client.connect()
         self.mqtt_client.start()
-        self.__printerCamera.start()
+        if self.camera_thread:
+            self.__printerCamera.start()
 
     def disconnect(self):
         """
         Disconnect from the printer
         """
         self.mqtt_client.stop()
-        self.__printerCamera.stop()
+        if self.camera_thread:
+            self.__printerCamera.stop()
+
+    def get_ready(self) -> bool:
+        return self.mqtt_client.ready()
+
 
     def get_time(self) -> (int | str | None):
         """
@@ -123,6 +130,30 @@ class Printer:
         None if the printer is not printing.
         """
         return self.mqtt_client.get_bed_temperature()
+
+    def get_nozzle_diameter(self) -> float | None:
+        """
+        Get the nozzle diameter of the printer.
+        
+        Returns
+        -------
+        float
+            The nozzle diameter of the printer.
+        """
+        return self.mqtt_client.get_nozzle_diameter()
+
+    def get_nozzle_type(self) -> str | None:
+        """
+        Get the nozzle material of the printer.
+
+        Returns
+        -------
+        str
+            The nozzle material of the printer.
+        """
+        return self.mqtt_client.get_nozzle_type()
+
+
 
     def get_nozzle_temperature(self) -> float | None:
         """
