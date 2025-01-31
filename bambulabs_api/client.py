@@ -32,25 +32,81 @@ class Printer:
         self.mqtt_client = PrinterMQTTClient(self.ip_address,
                                              self.access_code,
                                              self.serial)
-        self.__printerCamera = PrinterCamera(self.ip_address,
-                                             self.access_code)
-        self.__printerFTPClient = PrinterFTPClient(self.ip_address,
-                                                   self.access_code)
+        self.camera_client = PrinterCamera(self.ip_address,
+                                           self.access_code)
+        self.ftp_client = PrinterFTPClient(self.ip_address,
+                                           self.access_code)
+
+    def camera_client_alive(self) -> bool:
+        """
+        Check if the camera client is connected to the printer
+
+        Returns
+        -------
+        bool
+            Check if the camera loop is running.
+        """
+        return self.camera_client.alive
+
+    def mqtt_client_connected(self):
+        """
+        Get the mqtt client is connected to the printer.
+
+        Returns
+        -------
+        bool
+            Check if the mqtt client is connected.
+        """
+        return self.mqtt_client.is_connected()
+
+    def camera_start(self):
+        """
+        Start the camera
+
+        Returns
+        -------
+        bool
+            If the camera successfully connected
+        """
+        return self.camera_client.start()
+
+    def mqtt_start(self):
+        """
+        Start the camera
+
+        Returns
+        -------
+        bool
+            If the camera successfully connected
+        """
+        self.mqtt_client.connect()
+        self.mqtt_client.start()
+
+    def mqtt_stop(self):
+        """
+        Stop the mqtt client
+        """
+        self.mqtt_client.stop()
+
+    def camera_stop(self):
+        """
+        Stop the camera client
+        """
+        self.camera_client.stop()
 
     def connect(self):
         """
         Connect to the printer
         """
-        self.mqtt_client.connect()
-        self.mqtt_client.start()
-        self.__printerCamera.start()
+        self.mqtt_start()
+        self.camera_start()
 
     def disconnect(self):
         """
         Disconnect from the printer
         """
         self.mqtt_client.stop()
-        self.__printerCamera.stop()
+        self.camera_client.stop()
 
     def get_time(self) -> (int | str | None):
         """
@@ -220,7 +276,7 @@ class Printer:
         """
         try:
             if file and filename:
-                return self.__printerFTPClient.upload_file(file, filename)
+                return self.ftp_client.upload_file(file, filename)
         except Exception as e:
             raise Exception(f"Exception occurred during file upload: {e}")  # noqa  # pylint: disable=raise-missing-from,broad-exception-raised
         finally:
@@ -427,7 +483,7 @@ class Printer:
         str
             The path of the deleted file.
         """
-        return self.__printerFTPClient.delete_file(file_path)
+        return self.ftp_client.delete_file(file_path)
 
     def calibrate_printer(self, bed_level: bool = True,
                           motor_noise_calibration: bool = True,
@@ -498,7 +554,7 @@ class Printer:
         return self.get_camera_frame_()
 
     def get_camera_frame_(self) -> str:
-        return self.__printerCamera.get_frame()
+        return self.camera_client.get_frame()
 
     def get_camera_image(self) -> Image.Image:
         """
