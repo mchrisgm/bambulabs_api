@@ -166,3 +166,5 @@ cython_debug/
 
 *.json
 *.ipynb
+
+*.3mf
