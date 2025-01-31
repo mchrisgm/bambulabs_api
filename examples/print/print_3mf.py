@@ -33,8 +33,7 @@ def gcode_files_in_3mf(
 
     nl = zf.namelist()
     print(nl)
-    return [n for n in nl if n.endswith(".gcode") and
-            n.startswith("Metadata/plate_")]
+    return [n for n in nl if n.endswith(".gcode") and n.startswith("Metadata/plate_")]  # noqa: E501
 
 
 if __name__ == '__main__':
