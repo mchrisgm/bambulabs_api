@@ -1,0 +1,6 @@
+Bambulabs API 2.5.9 Release Notes
+=================================
+
+* Add enhanced start & stop for the camera and mqtt clients
+* Add print 3mf example
+

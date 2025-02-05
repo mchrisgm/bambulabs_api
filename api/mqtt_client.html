@@ -68,6 +68,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_remaining_time"><code class="docutils literal notranslate"><span class="pre">get_remaining_time()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_sequence_id"><code class="docutils literal notranslate"><span class="pre">get_sequence_id()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_skipped_objects"><code class="docutils literal notranslate"><span class="pre">get_skipped_objects()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.is_connected"><code class="docutils literal notranslate"><span class="pre">is_connected()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.load_filament_spool"><code class="docutils literal notranslate"><span class="pre">load_filament_spool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.loop_forever"><code class="docutils literal notranslate"><span class="pre">loop_forever()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.nozzle_diameter"><code class="docutils literal notranslate"><span class="pre">nozzle_diameter()</span></code></a></li>
@@ -388,6 +389,20 @@
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>if publish command is successful</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.is_connected">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">is_connected</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.is_connected" title="Link to this definition"></a></dt>
+<dd><p>Check if the mqtt client is connected</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If the mqtt client is connected</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
