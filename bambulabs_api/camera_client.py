@@ -32,10 +32,26 @@ class PrinterCamera:
         self.alive = False
 
     def start(self):
-        self.alive = True
-        self.__thread.start()
+        """
+        Start the camera worker thread
+
+        Returns
+        -------
+        bool
+            If the camera thread was started successfully. False if already
+            running.
+        """
+        if not self.alive:
+            self.alive = True
+            self.__thread.start()
+            return True
+        else:
+            return False
 
     def stop(self):
+        """
+        Stop the camera client
+        """
         self.alive = False
         self.__thread.join()
 

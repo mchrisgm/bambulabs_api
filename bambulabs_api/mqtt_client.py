@@ -95,6 +95,17 @@ class PrinterMQTTClient:
         self.ams_hub: AMSHub = AMSHub()
         self.strict = strict
 
+    def is_connected(self):
+        """
+        Check if the mqtt client is connected
+
+        Returns
+        -------
+        bool
+            If the mqtt client is connected
+        """
+        return self._client.is_connected()
+
     @staticmethod
     def __ready(func: Callable[..., Any]) -> Callable[..., Any]:  # noqa # pylint: disable=missing-function-docstring, no-self-argument
         def wrapper(
