@@ -11,6 +11,7 @@ from typing import Any, BinaryIO
 
 from bambulabs_api.ams import AMSHub
 from bambulabs_api.filament_info import FilamentTray
+from bambulabs_api.printer_info import NozzleType
 from bambulabs_api.states_info import PrintStatus
 from .camera_client import PrinterCamera
 from .ftp_client import PrinterFTPClient
@@ -170,7 +171,6 @@ class Printer:
     def get_bed_temperature(self) -> float | None:
         """
         Get the bed temperature of the printer.
-        NOT IMPLEMENTED YET
 
         Returns
         -------
@@ -183,7 +183,6 @@ class Printer:
     def get_nozzle_temperature(self) -> float | None:
         """
         Get the nozzle temperature of the printer.
-        NOT IMPLEMENTED YET
 
         Returns
         -------
@@ -192,6 +191,24 @@ class Printer:
         None if the printer is not printing.
         """
         return self.mqtt_client.get_nozzle_temperature()
+
+    def nozzle_type(self) -> NozzleType:
+        """
+        Get the nozzle type currently registered to printer
+
+        Returns:
+            NozzleType: nozzle diameter
+        """
+        return self.mqtt_client.nozzle_type()
+
+    def nozzle_diameter(self) -> float:
+        """
+        Get the nozzle diameter currently registered to printer
+
+        Returns:
+            float: nozzle diameter
+        """
+        return self.mqtt_client.nozzle_diameter()
 
     def get_file_name(self) -> str:
         """
@@ -670,3 +687,30 @@ class Printer:
         """
         self.mqtt_client.process_ams()
         return self.mqtt_client.ams_hub
+
+    def subtask_name(self) -> str:
+        """
+        Get current subtask name (current print details)
+
+        Returns:
+            str: current subtask name
+        """
+        return self.mqtt_client.subtask_name()
+
+    def gcode_file(self) -> str:
+        """
+        Get current gcode file (current print details)
+
+        Returns:
+            str: current gcode_file name
+        """
+        return self.mqtt_client.gcode_file()
+
+    def print_error_code(self) -> int:
+        """
+        Get current gcode file (current print details)
+
+        Returns:
+            int: error code (0 if normal)
+        """
+        return self.mqtt_client.print_error_code()
