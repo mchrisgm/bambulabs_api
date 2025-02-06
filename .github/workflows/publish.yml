@@ -111,7 +111,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -f docs/release/${{ env.VERSION }}-notes.md ]; then
-            gh release create "${{ env.VERSION }}" --latest --repo "${{ github.repository }}" -F docs/release/${{ env.VERSION }}-notes.md
+            echo "Releasing ${{ env.VERSION }}"
+            gh release create "${{ env.VERSION }}" --latest --repo "${{ github.repository }}" -F "docs/release/${{ env.VERSION }}-notes.md"
           else
             gh release create "${{ env.VERSION }}" --latest --repo "${{ github.repository }}" --notes ""
           fi

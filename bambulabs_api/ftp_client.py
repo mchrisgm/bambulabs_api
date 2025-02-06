@@ -64,7 +64,8 @@ class PrinterFTPClient:
 
         Args:
             func (function): the function to be decorated
-        """ # noqa
+        """  # noqa
+
         def wrapper(self, *args, **kwargs) -> Any:
             logging.info("Connecting to FTP server...")
             self.ftps.connect(host=self.server_ip, port=self.port)

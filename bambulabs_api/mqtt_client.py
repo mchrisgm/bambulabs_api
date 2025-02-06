@@ -803,7 +803,7 @@ class PrinterMQTTClient:
         Get the nozzle type currently registered to printer
 
         Returns:
-            str: nozzle diameter
+            NozzleType: nozzle diameter
         """
         return NozzleType(self.__get("nozzle_diameter", "stainless_steel"))
 
@@ -848,3 +848,30 @@ class PrinterMQTTClient:
         """
         tray = self.__get("vt_tray")
         return FilamentTray.from_dict(tray)
+
+    def subtask_name(self) -> str:
+        """
+        Get current subtask name (current print details)
+
+        Returns:
+            str: current subtask name
+        """
+        return self.__get("subtask_name")
+
+    def gcode_file(self) -> str:
+        """
+        Get current gcode file (current print details)
+
+        Returns:
+            str: current gcode_file name
+        """
+        return self.__get("gcode_file")
+
+    def print_error_code(self) -> int:
+        """
+        Get current gcode file (current print details)
+
+        Returns:
+            int: error code (0 if normal)
+        """
+        return int(self.__get("print_error", 0))
