@@ -57,6 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.delete_file"><code class="docutils literal notranslate"><span class="pre">delete_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.disconnect"><code class="docutils literal notranslate"><span class="pre">disconnect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.gcode"><code class="docutils literal notranslate"><span class="pre">gcode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.gcode_file"><code class="docutils literal notranslate"><span class="pre">gcode_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_camera_frame"><code class="docutils literal notranslate"><span class="pre">get_camera_frame()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.get_camera_image"><code class="docutils literal notranslate"><span class="pre">get_camera_image()</span></code></a></li>
@@ -76,7 +77,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_dump"><code class="docutils literal notranslate"><span class="pre">mqtt_dump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_start"><code class="docutils literal notranslate"><span class="pre">mqtt_start()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.mqtt_stop"><code class="docutils literal notranslate"><span class="pre">mqtt_stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.nozzle_diameter"><code class="docutils literal notranslate"><span class="pre">nozzle_diameter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.nozzle_type"><code class="docutils literal notranslate"><span class="pre">nozzle_type()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.print_error_code"><code class="docutils literal notranslate"><span class="pre">print_error_code()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.resume_print"><code class="docutils literal notranslate"><span class="pre">resume_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.retry_filament_action"><code class="docutils literal notranslate"><span class="pre">retry_filament_action()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.set_auto_step_recovery"><code class="docutils literal notranslate"><span class="pre">set_auto_step_recovery()</span></code></a></li>
@@ -90,6 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.skip_objects"><code class="docutils literal notranslate"><span class="pre">skip_objects()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.start_print"><code class="docutils literal notranslate"><span class="pre">start_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.stop_print"><code class="docutils literal notranslate"><span class="pre">stop_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.subtask_name"><code class="docutils literal notranslate"><span class="pre">subtask_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.turn_light_off"><code class="docutils literal notranslate"><span class="pre">turn_light_off()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.turn_light_on"><code class="docutils literal notranslate"><span class="pre">turn_light_on()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
@@ -254,10 +259,23 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.gcode_file">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">gcode_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.gcode_file" title="Link to this definition"></a></dt>
+<dd><p>Get current gcode file (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current gcode_file name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.get_bed_temperature">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_bed_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_bed_temperature" title="Link to this definition"></a></dt>
-<dd><p>Get the bed temperature of the printer.
-NOT IMPLEMENTED YET</p>
+<dd><p>Get the bed temperature of the printer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -342,8 +360,7 @@ NOT IMPLEMENTED YET</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.get_nozzle_temperature">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">get_nozzle_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.get_nozzle_temperature" title="Link to this definition"></a></dt>
-<dd><p>Get the nozzle temperature of the printer.
-NOT IMPLEMENTED YET</p>
+<dd><p>Get the nozzle temperature of the printer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><ul class="simple">
@@ -523,6 +540,34 @@ NOT IMPLEMENTED YET</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.nozzle_diameter">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">nozzle_diameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.nozzle_diameter" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle diameter currently registered to printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle diameter</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.nozzle_type">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">nozzle_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NozzleType</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.nozzle_type" title="Link to this definition"></a></dt>
+<dd><p>Get the nozzle type currently registered to printer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>nozzle diameter</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>NozzleType</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.Printer.pause_print">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">pause_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.pause_print" title="Link to this definition"></a></dt>
 <dd><p>Pause the printer from printing.</p>
@@ -532,6 +577,20 @@ NOT IMPLEMENTED YET</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.print_error_code">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">print_error_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.print_error_code" title="Link to this definition"></a></dt>
+<dd><p>Get current gcode file (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error code (0 if normal)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -763,6 +822,20 @@ by default [0].</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.subtask_name">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">subtask_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.Printer.subtask_name" title="Link to this definition"></a></dt>
+<dd><p>Get current subtask name (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current subtask name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>

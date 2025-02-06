@@ -54,6 +54,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.current_layer_num"><code class="docutils literal notranslate"><span class="pre">current_layer_num()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.gcode_file"><code class="docutils literal notranslate"><span class="pre">gcode_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.gcode_file_prepare_percentage"><code class="docutils literal notranslate"><span class="pre">gcode_file_prepare_percentage()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature_target()</span></code></a></li>
@@ -74,6 +75,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.nozzle_diameter"><code class="docutils literal notranslate"><span class="pre">nozzle_diameter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.nozzle_type"><code class="docutils literal notranslate"><span class="pre">nozzle_type()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.pause_print"><code class="docutils literal notranslate"><span class="pre">pause_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.print_error_code"><code class="docutils literal notranslate"><span class="pre">print_error_code()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.process_ams"><code class="docutils literal notranslate"><span class="pre">process_ams()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.pushall"><code class="docutils literal notranslate"><span class="pre">pushall()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.resume_filament_action"><code class="docutils literal notranslate"><span class="pre">resume_filament_action()</span></code></a></li>
@@ -93,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.start_print_3mf"><code class="docutils literal notranslate"><span class="pre">start_print_3mf()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.stop"><code class="docutils literal notranslate"><span class="pre">stop()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.stop_print"><code class="docutils literal notranslate"><span class="pre">stop_print()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.subtask_name"><code class="docutils literal notranslate"><span class="pre">subtask_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.total_layer_num"><code class="docutils literal notranslate"><span class="pre">total_layer_num()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.turn_light_off"><code class="docutils literal notranslate"><span class="pre">turn_light_off()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.turn_light_on"><code class="docutils literal notranslate"><span class="pre">turn_light_on()</span></code></a></li>
@@ -195,6 +198,20 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict[Any, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.gcode_file">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">gcode_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.gcode_file" title="Link to this definition"></a></dt>
+<dd><p>Get current gcode file (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current gcode_file name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -461,7 +478,7 @@
 <dd class="field-odd"><p>nozzle diameter</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>str</p>
+<dd class="field-even"><p>NozzleType</p>
 </dd>
 </dl>
 </dd></dl>
@@ -476,6 +493,20 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.print_error_code">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">print_error_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.print_error_code" title="Link to this definition"></a></dt>
+<dd><p>Get current gcode file (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>error code (0 if normal)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -771,6 +802,20 @@ skip. Defaults to [].</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>print_status</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.subtask_name">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">subtask_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.subtask_name" title="Link to this definition"></a></dt>
+<dd><p>Get current subtask name (current print details)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>current subtask name</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
