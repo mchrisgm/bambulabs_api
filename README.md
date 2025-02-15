@@ -5,6 +5,7 @@ This package provides a Python API for interacting with BambuLab 3D Printers. Th
 ## Support
 
 If you've found this package useful, help us support more printers with the link below.
+
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mchrisgm)
 
 ## Status
