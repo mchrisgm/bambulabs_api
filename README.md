@@ -2,6 +2,11 @@
 
 This package provides a Python API for interacting with BambuLab 3D Printers. The API enables you to control and monitor your printer programmatically, making it an essential tool for developers, makers, and automation enthusiasts. The project is open-source and available on PyPI.
 
+## Support
+
+If you've found this package useful, help us support more printers with the link below.
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mchrisgm)
+
 ## Status
 
 [![flake8](https://github.com/mchrisgm/bambulabs_api/actions/workflows/flake8.yml/badge.svg)](https://github.com/mchrisgm/bambulabs_api/actions/workflows/flake8.yml)
