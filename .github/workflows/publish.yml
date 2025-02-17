@@ -4,10 +4,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - docs/**
-      - examples/**
-      - .github/workflows/**
+    paths:
+      - pyproject.toml
 
 jobs:
   build:
@@ -106,6 +104,9 @@ jobs:
         with:
           inputs: ./dist/*.tar.gz ./dist/*.whl
       
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
