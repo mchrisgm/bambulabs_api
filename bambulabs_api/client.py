@@ -301,7 +301,7 @@ class Printer:
         return "No file uploaded."
 
     def start_print(self, filename: str,
-                    plate_number: int,
+                    plate_number: int | str,
                     use_ams: bool = True,
                     ams_mapping: list[int] = [0],
                     skip_objects: list[int] | None = None,
@@ -313,8 +313,9 @@ class Printer:
         ----------
         filename : str
             The name of the file to be printed.
-        plate_number : int
-            The plate number of the file to be printed.
+        plate_number : (int | str)
+            The plate number of the file to be printed (assuming the 3mf file
+            is created with Bambustudio/Orcaslicer). Or the path as a string.
         use_ams : bool, optional
             Whether to use the AMS system, by default True.
         ams_mapping : list[int], optional

@@ -333,7 +333,7 @@ class PrinterMQTTClient:
         return light_report[0].get("mode", "unknown")
 
     def start_print_3mf(self, filename: str,
-                        plate_number: int,
+                        plate_number: int | str,
                         use_ams: bool = True,
                         ams_mapping: list[int] = [0],
                         skip_objects: list[int] | None = None,
@@ -356,12 +356,16 @@ class PrinterMQTTClient:
         if skip_objects is not None and not skip_objects:
             skip_objects = None
 
+        if isinstance(plate_number, int):
+            plate_location = f"Metadata/plate_{int(plate_number)}.gcode"
+        else:
+            plate_location = plate_number
         return self.__publish_command(
             {
                 "print":
                 {
                     "command": "project_file",
-                    "param": f"Metadata/plate_{int(plate_number)}.gcode",
+                    "param": plate_location,
                     "file": filename,
                     "bed_leveling": True,
                     "bed_type": "textured_plate",

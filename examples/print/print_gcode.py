@@ -14,6 +14,7 @@ UPLOAD_FILE_NAME = 'bambulab_api_example.3mf'
 # ============================================================
 
 env = os.getenv("env", "debug")
+plate = os.getenv("plate", "true").lower() == "true"
 
 
 def create_zip_archive_in_memory(
@@ -55,14 +56,27 @@ if __name__ == '__main__':
     with open(INPUT_FILE_PATH, "r") as file:
         gcode = file.read()
 
-    gcode_location = "Metadata/plate_1.gcode"
-    io_file = create_zip_archive_in_memory(gcode, gcode_location)
-    if file:
-        result = printer.upload_file(io_file, UPLOAD_FILE_NAME)
-        if "226" not in result:
-            print("Error Uploading File to Printer")
+    if plate:
+        gcode_location = "Metadata/plate_1.gcode"
+        io_file = create_zip_archive_in_memory(gcode, gcode_location)
+        if file:
+            result = printer.upload_file(io_file, UPLOAD_FILE_NAME)
+            if "226" not in result:
+                print("Error Uploading File to Printer")
 
-        else:
-            print("Done Uploading/Sending Start Print Command")
-            printer.start_print(UPLOAD_FILE_NAME, 1)
-            print("Start Print Command Sent")
+            else:
+                print("Done Uploading/Sending Start Print Command")
+                printer.start_print(UPLOAD_FILE_NAME, 1)
+                print("Start Print Command Sent")
+    else:
+        gcode_location = INPUT_FILE_PATH
+        io_file = create_zip_archive_in_memory(gcode, gcode_location)
+        if file:
+            result = printer.upload_file(io_file, UPLOAD_FILE_NAME)
+            if "226" not in result:
+                print("Error Uploading File to Printer")
+
+            else:
+                print("Done Uploading/Sending Start Print Command")
+                printer.start_print(UPLOAD_FILE_NAME, gcode_location)
+                print("Start Print Command Sent")
