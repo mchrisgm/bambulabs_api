@@ -715,3 +715,12 @@ class Printer:
             int: error code (0 if normal)
         """
         return self.mqtt_client.print_error_code()
+
+    def print_type(self) -> str:
+        """
+        Get what type of print the current printing file is from (cloud, local)
+
+        Returns:
+            str: print type
+        """
+        return self.mqtt_client.print_type()

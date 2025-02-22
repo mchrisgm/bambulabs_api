@@ -879,3 +879,12 @@ class PrinterMQTTClient:
             int: error code (0 if normal)
         """
         return int(self.__get("print_error", 0))
+
+    def print_type(self) -> str:
+        """
+        Get what type of print the current printing file is from (cloud, local)
+
+        Returns:
+            str: print type
+        """
+        return self.__get("print_type")
