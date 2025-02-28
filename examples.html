@@ -226,6 +226,7 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.</p>
 <span class="c1"># ============================================================</span>
 
 <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+<span class="n">plate</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;plate&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">create_zip_archive_in_memory</span><span class="p">(</span>
@@ -267,17 +268,30 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.</p>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">INPUT_FILE_PATH</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
         <span class="n">gcode</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-    <span class="n">gcode_location</span> <span class="o">=</span> <span class="s2">&quot;Metadata/plate_1.gcode&quot;</span>
-    <span class="n">io_file</span> <span class="o">=</span> <span class="n">create_zip_archive_in_memory</span><span class="p">(</span><span class="n">gcode</span><span class="p">,</span> <span class="n">gcode_location</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">file</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">io_file</span><span class="p">,</span> <span class="n">UPLOAD_FILE_NAME</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;226&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error Uploading File to Printer&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plate</span><span class="p">:</span>
+        <span class="n">gcode_location</span> <span class="o">=</span> <span class="s2">&quot;Metadata/plate_1.gcode&quot;</span>
+        <span class="n">io_file</span> <span class="o">=</span> <span class="n">create_zip_archive_in_memory</span><span class="p">(</span><span class="n">gcode</span><span class="p">,</span> <span class="n">gcode_location</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">io_file</span><span class="p">,</span> <span class="n">UPLOAD_FILE_NAME</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;226&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error Uploading File to Printer&quot;</span><span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done Uploading/Sending Start Print Command&quot;</span><span class="p">)</span>
-            <span class="n">printer</span><span class="o">.</span><span class="n">start_print</span><span class="p">(</span><span class="n">UPLOAD_FILE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start Print Command Sent&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done Uploading/Sending Start Print Command&quot;</span><span class="p">)</span>
+                <span class="n">printer</span><span class="o">.</span><span class="n">start_print</span><span class="p">(</span><span class="n">UPLOAD_FILE_NAME</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start Print Command Sent&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">gcode_location</span> <span class="o">=</span> <span class="n">INPUT_FILE_PATH</span>
+        <span class="n">io_file</span> <span class="o">=</span> <span class="n">create_zip_archive_in_memory</span><span class="p">(</span><span class="n">gcode</span><span class="p">,</span> <span class="n">gcode_location</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">io_file</span><span class="p">,</span> <span class="n">UPLOAD_FILE_NAME</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;226&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error Uploading File to Printer&quot;</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done Uploading/Sending Start Print Command&quot;</span><span class="p">)</span>
+                <span class="n">printer</span><span class="o">.</span><span class="n">start_print</span><span class="p">(</span><span class="n">UPLOAD_FILE_NAME</span><span class="p">,</span> <span class="n">gcode_location</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start Print Command Sent&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
