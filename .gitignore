@@ -168,3 +168,4 @@ cython_debug/
 *.ipynb
 
 *.3mf
+*.gcode
