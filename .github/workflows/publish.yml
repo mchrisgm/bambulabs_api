@@ -88,6 +88,9 @@ jobs:
       id-token: write
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Import VERSION environment variable
         run: |
           echo "VERSION=${{ needs.build.outputs.VERSION }}" >> $GITHUB_ENV
@@ -103,9 +106,6 @@ jobs:
         uses: sigstore/gh-action-sigstore-python@v3.0.0
         with:
           inputs: ./dist/*.tar.gz ./dist/*.whl
-      
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Create GitHub Release
         env:
