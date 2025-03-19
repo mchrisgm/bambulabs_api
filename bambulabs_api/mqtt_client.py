@@ -2,6 +2,7 @@ __all__ = ["PrinterMQTTClient"]
 
 import json
 import logging
+import math
 import ssl
 import datetime
 from typing import Any, Callable
@@ -457,7 +458,8 @@ class PrinterMQTTClient:
         Args:
             gcode_command (str): G-code command to send to the printer
         """
-        return self.__publish_command({"print": {"command": "gcode_line",
+        return self.__publish_command({"print": {"sequence_id": "0",
+                                                 "command": "gcode_line",
                                                  "param": f"{gcode_command}"}})
 
     def send_gcode(self, gcode_command: str | list[str]) -> bool:
@@ -489,6 +491,45 @@ class PrinterMQTTClient:
             bool: success of setting the bed temperature
         """
         return self.__send_gcode_line(f"M140 S{temperature}\n")
+
+    def get_fan_gear(self):
+        """
+        Get fan_gear
+
+        Returns:
+            int: consolidated fan value for part, aux and chamber fan speeds
+        """
+        return self.__get("fan_gear", 0)
+
+    def get_part_fan_speed(self):
+        """
+        Get part fan speed
+
+        Returns:
+            int: 0-255 value representing part fan speed
+        """
+        # divide by 256 twice to extract fan speed
+        return math.floor(((self.get_fan_gear()) / 256) / 256)
+    
+    def get_aux_fan_speed(self):
+        """
+        Get auxiliary fan speed
+
+        Returns:
+            int: 0-255 value representing auxiliary fan speed
+        """
+        # shift 8 bits then divide by 256 to extract fan speed
+        return math.floor((((self.get_fan_gear() >> 8)) / 256))
+
+    def get_chamber_fan_speed(self):
+        """
+        Get chamber fan speed
+
+        Returns:
+            int: 0-255 value representing chamber fan speed
+        """
+        # shift 16 bits to extract fan speed
+        return self.get_fan_gear() >> 16
 
     def set_part_fan_speed(self, speed: int | float) -> bool:
         """
