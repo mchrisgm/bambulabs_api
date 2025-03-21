@@ -4,7 +4,7 @@ import json
 import logging
 import ssl
 import datetime
-from typing import Any, Callable
+from typing import Any, Callable, Union
 from re import match
 
 import paho.mqtt.client as mqtt
@@ -83,6 +83,30 @@ class PrinterMQTTClient:
 
         self._client.on_connect = self._on_connect
         self._client.on_message = self._on_message
+        self._client.on_disconnect = self._on_disconnect
+
+        self.on_connect_handler: Callable[[
+            'PrinterMQTTClient',
+            mqtt.Client,
+            Any,
+            mqtt.ConnectFlags,
+            paho.mqtt.reasoncodes.ReasonCode,
+            paho.mqtt.properties.Properties | None
+        ], None] = lambda a, b, c, d, e, f: None
+        self.on_message_handler: Callable[[
+            'PrinterMQTTClient',
+            mqtt.Client,
+            Any,
+            mqtt.MQTTMessage
+        ], None] = lambda a, b, c, d: None
+        self.on_disconnect_handler: Callable[[
+            'PrinterMQTTClient',
+            mqtt.Client,
+            Any,
+            mqtt.DisconnectFlags,
+            paho.mqtt.reasoncodes.ReasonCode,
+            Union[paho.mqtt.properties.Properties, None],
+        ], None] = lambda a, b, c, d, e, f: None
 
         self.pushall_timeout: int = pushall_timeout
         self.pushall_aggressive = pushall_on_connect
@@ -123,6 +147,24 @@ class PrinterMQTTClient:
     def ready(self) -> bool:
         return bool(self._data)
 
+    def _on_disconnect(
+        self,
+        client: mqtt.Client,
+        userdata: Any,
+        disconnect_flags: mqtt.DisconnectFlags,
+        reason_code: paho.mqtt.reasoncodes.ReasonCode,
+        properties: Union[paho.mqtt.properties.Properties, None],
+    ) -> None:
+        logging.info(f"Client Disconnected: {client} {userdata} "
+                     f"{disconnect_flags} {reason_code} {properties}")
+        self.on_disconnect_handler(
+            self,
+            client,
+            userdata,
+            disconnect_flags,
+            reason_code,
+            properties)
+
     def _on_message(
         self,
         client: mqtt.Client,
@@ -132,6 +174,8 @@ class PrinterMQTTClient:
         # Current date and time
         doc = json.loads(msg.payload)
         self.manual_update(doc)
+
+        self.on_message_handler(self, client, userdata, msg)
 
     def manual_update(self, doc: dict[str, Any]) -> None:
         if "print" in doc:
@@ -172,6 +216,15 @@ class PrinterMQTTClient:
             logging.info("Connection Handshake Completed")
         else:
             logging.warning(f"Connection failed with result code {rc}")
+
+        self.on_connect_handler(
+            self,
+            client,
+            userdata,
+            flags,
+            rc,
+            properties
+        )
 
     def connect(self) -> None:
         """
