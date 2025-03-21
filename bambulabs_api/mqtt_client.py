@@ -508,7 +508,7 @@ class PrinterMQTTClient:
             int: 0-255 value representing part fan speed
         """
         return self.get_fan_gear() % 256
-    
+
     def get_aux_fan_speed(self):
         """
         Get auxiliary fan speed
