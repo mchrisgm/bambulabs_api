@@ -56,14 +56,18 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.gcode_file"><code class="docutils literal notranslate"><span class="pre">gcode_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.gcode_file_prepare_percentage"><code class="docutils literal notranslate"><span class="pre">gcode_file_prepare_percentage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_aux_fan_speed"><code class="docutils literal notranslate"><span class="pre">get_aux_fan_speed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_bed_temperature_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_chamber_fan_speed"><code class="docutils literal notranslate"><span class="pre">get_chamber_fan_speed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_current_state"><code class="docutils literal notranslate"><span class="pre">get_current_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_fan_gear"><code class="docutils literal notranslate"><span class="pre">get_fan_gear()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_file_name"><code class="docutils literal notranslate"><span class="pre">get_file_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_last_print_percentage"><code class="docutils literal notranslate"><span class="pre">get_last_print_percentage()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_light_state"><code class="docutils literal notranslate"><span class="pre">get_light_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature"><code class="docutils literal notranslate"><span class="pre">get_nozzle_temperature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_nozzle_temperature_target"><code class="docutils literal notranslate"><span class="pre">get_nozzle_temperature_target()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_part_fan_speed"><code class="docutils literal notranslate"><span class="pre">get_part_fan_speed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_print_speed"><code class="docutils literal notranslate"><span class="pre">get_print_speed()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_printer_state"><code class="docutils literal notranslate"><span class="pre">get_printer_state()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.PrinterMQTTClient.get_remaining_time"><code class="docutils literal notranslate"><span class="pre">get_remaining_time()</span></code></a></li>
@@ -232,6 +236,20 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_aux_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_aux_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_aux_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Get auxiliary fan speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0-255 value representing auxiliary fan speed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_bed_temperature">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_bed_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_bed_temperature" title="Link to this definition"></a></dt>
 <dd><p>Get the bed temperature</p>
@@ -260,6 +278,20 @@
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_chamber_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_chamber_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_chamber_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Get chamber fan speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0-255 value representing chamber fan speed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_current_state">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_current_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PrintStatus</span></span></span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_current_state" title="Link to this definition"></a></dt>
 <dd><p>Get the current printer state from stg_cur</p>
@@ -269,6 +301,20 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>PrintStatus</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_fan_gear">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_fan_gear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_fan_gear" title="Link to this definition"></a></dt>
+<dd><p>Get fan_gear</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>consolidated fan value for part, aux and chamber fan speeds</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
@@ -339,6 +385,20 @@
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.PrinterMQTTClient.get_part_fan_speed">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.PrinterMQTTClient.</span></span><span class="sig-name descname"><span class="pre">get_part_fan_speed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.PrinterMQTTClient.get_part_fan_speed" title="Link to this definition"></a></dt>
+<dd><p>Get part fan speed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0-255 value representing part fan speed</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>
