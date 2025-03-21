@@ -460,21 +460,27 @@ class PrinterMQTTClient:
         return self.__publish_command({"print": {"command": "gcode_line",
                                                  "param": f"{gcode_command}"}})
 
-    def send_gcode(self, gcode_command: str | list[str]) -> bool:
+    def send_gcode(
+            self,
+            gcode_command: str | list[str],
+            gcode_check: bool = True) -> bool:
         """
         Send a G-code line command to the printer
 
         Args:
             gcode_command (str | list[str]): G-code command(s) to send to the
                 printer
+            gcode_check: (bool): whether to check gcode validity.
+                Default to True.
         """
         if isinstance(gcode_command, str):
-            if not is_valid_gcode(gcode_command):
+            if gcode_check and not is_valid_gcode(gcode_command):
                 raise ValueError("Invalid G-code command")
 
             return self.__send_gcode_line(gcode_command)
         elif isinstance(gcode_command, list):  # type: ignore
-            if any(not is_valid_gcode(g) for g in gcode_command):
+            if gcode_check and any(
+                    not is_valid_gcode(g) for g in gcode_command):
                 raise ValueError("Invalid G-code command")
             return self.__send_gcode_line("\n".join(gcode_command))
 
