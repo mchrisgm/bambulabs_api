@@ -13,10 +13,22 @@ import paho.mqtt.reasoncodes
 from paho.mqtt.enums import CallbackAPIVersion
 
 from bambulabs_api.ams import AMS, AMSHub
-from bambulabs_api.printer_info import NozzleType
+from bambulabs_api.printer_info import (
+    NozzleType,
+    PrinterFirmwareInfo,
+    PrinterType)
 
 from .filament_info import Filament, FilamentTray
 from .states_info import GcodeState, PrintStatus
+
+
+def set_temperature_support(printer_info: PrinterFirmwareInfo):
+    printer_type = printer_info.printer_type
+    if printer_type in (PrinterType.P1P, PrinterType.P1S,
+                        PrinterType.X1E, PrinterType.X1C, ):
+        return printer_info.firmware_version < "01.06"
+    elif printer_type in (PrinterType.A1, PrinterType.A1_MINI):
+        return printer_info.firmware_version <= "01.04"
 
 
 def is_valid_gcode(line: str):
@@ -118,6 +130,11 @@ class PrinterMQTTClient:
 
         self.ams_hub: AMSHub = AMSHub()
         self.strict = strict
+
+        self.printer_info: PrinterFirmwareInfo = PrinterFirmwareInfo(
+            PrinterType.P1S,
+            "01.04.00.00"
+        )
 
     def is_connected(self):
         """
@@ -538,17 +555,35 @@ class PrinterMQTTClient:
                 raise ValueError("Invalid G-code command")
             return self.__send_gcode_line("\n".join(gcode_command))
 
-    def set_bed_temperature(self, temperature: int) -> bool:
+    def set_bed_temperature(
+            self,
+            temperature: int,
+            override: bool = False
+    ) -> bool:
         """
-        Set the bed temperature
+        Set the bed temperature. Note P1 firmware version above 01.06 does not
+        support M140. M190 is used instead (set and wait for temperature).
+        To prevent long wait times, if temperature is set to below 40 deg cel,
+        no temperature is set, override flag is provided to circumvent this.
 
         Args:
             temperature (int): The temperature to set the bed to
+            override (bool): Whether to override guards. Default to False
 
         Returns:
             bool: success of setting the bed temperature
         """
-        return self.__send_gcode_line(f"M140 S{temperature}\n")
+        if set_temperature_support(self.printer_info):
+            return self.__send_gcode_line(f"M140 S{temperature}\n")
+        else:
+            if temperature < 40 and not override:
+                logging.warning(
+                    "Attempting to set low bed temperature not recommended. "
+                    "Set override flag to true to if you're sure you want to "
+                    f"run M190 S{temperature};"
+                )
+                return False
+            return self.__send_gcode_line(f"M190 S{temperature}\n")
 
     def get_fan_gear(self):
         """
@@ -697,17 +732,37 @@ class PrinterMQTTClient:
             {"print": {"command": "print_speed", "param": f"{speed_lvl}"}}
         )
 
-    def set_nozzle_temperature(self, temperature: int) -> bool:
+    def set_nozzle_temperature(
+            self,
+            temperature: int,
+            override: bool = False
+    ) -> bool:
         """
-        Set the nozzle temperature
+        Set the nozzle temperature. Note P1 firmware version above 01.06 does
+        not support M104. M109 is used instead (set and wait for temperature).
+        To prevent long wait times, if temperature is set to below 40 deg cel,
+        no temperature is set, override flag is provided to circumvent this.
 
+        Args:
+            temperature (int): The temperature to set the bed to
+            override (bool): Whether to override guards. Default to False
         Args:
             temperature (int): temperature to set the nozzle to
 
         Returns:
             bool: success of setting the nozzle temperature
         """
-        return self.__send_gcode_line(f"M104 S{temperature}\n")
+        if set_temperature_support(self.printer_info):
+            return self.__send_gcode_line(f"M104 S{temperature}\n")
+        else:
+            if temperature < 60 and not override:
+                logging.warning(
+                    "Attempting to set low bed temperature not recommended. "
+                    "Set override flag to true to if you're sure you want to "
+                    f"run M109 S{temperature};"
+                )
+                return False
+            return self.__send_gcode_line(f"M109 S{temperature}\n")
 
     def set_printer_filament(
         self,
