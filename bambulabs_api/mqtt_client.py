@@ -198,6 +198,10 @@ class PrinterMQTTClient:
         self._data |= doc
         logging.debug(self._data)
 
+        firmware_version = self.firmware_version()
+        if firmware_version is not None:
+            self.printer_info.firmware_version = firmware_version
+
     def _on_connect(
         self,
         client: mqtt.Client,

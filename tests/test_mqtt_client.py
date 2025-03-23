@@ -37,3 +37,4 @@ def test_nozzle_diameter():
 
 def test_get_firmware():
     assert mqtt.firmware_version() == "01.07.00.00"
+    assert mqtt.printer_info.firmware_version == "01.07.00.00"
