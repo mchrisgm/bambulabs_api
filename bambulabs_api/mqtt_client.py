@@ -291,7 +291,6 @@ class PrinterMQTTClient:
 
     @__ready
     def __get_info(self, key: str, default: Any = None) -> Any:
-        self._update()
         return self._data.get("info", {}).get(key, default)
 
     def _update(self) -> bool:

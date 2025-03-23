@@ -13,6 +13,16 @@ mqtt.manual_update(
             "s_obj": [1, 2, 3],
             "nozzle_diameter": "0.4",
         },
+        "info": {
+            "command": "get_version",
+            "sequence_id": "",
+            "module": [
+                {
+                    "name": "ota",
+                    "sw_ver": "01.07.00.00",
+                },
+            ]
+        }
     }
 )
 
@@ -23,3 +33,7 @@ def test_get_skipped_objects():
 
 def test_nozzle_diameter():
     assert mqtt.nozzle_diameter() == 0.4
+
+
+def test_get_firmware():
+    assert mqtt.firmware_version() == "01.07.00.00"
