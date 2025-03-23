@@ -195,9 +195,8 @@ class PrinterMQTTClient:
         self.on_message_handler(self, client, userdata, msg)
 
     def manual_update(self, doc: dict[str, Any]) -> None:
-        if "print" in doc:
-            self._data |= doc["print"]
-            logging.debug(self._data)
+        self._data |= doc
+        logging.debug(self._data)
 
     def _on_connect(
         self,
@@ -229,7 +228,10 @@ class PrinterMQTTClient:
             if self.pushall_aggressive:
                 self._client.publish(
                     self.command_topic, json.dumps(
-                        {"pushing": {"command": "pushall"}}))
+                        {
+                            "pushing": {"command": "pushall"},
+                            "info": {"command": "get_version"},
+                        }))
             logging.info("Connection Handshake Completed")
         else:
             logging.warning(f"Connection failed with result code {rc}")
@@ -283,9 +285,14 @@ class PrinterMQTTClient:
         return self._data
 
     @__ready
-    def __get(self, key: str, default: Any = None) -> Any:
+    def __get_print(self, key: str, default: Any = None) -> Any:
         self._update()
-        return self._data.get(key, default)
+        return self._data.get("print", {}).get(key, default)
+
+    @__ready
+    def __get_info(self, key: str, default: Any = None) -> Any:
+        self._update()
+        return self._data.get("info", {}).get(key, default)
 
     def _update(self) -> bool:
         current_time = int(datetime.datetime.now().timestamp())
@@ -293,6 +300,30 @@ class PrinterMQTTClient:
             return False
         self._last_update = current_time
         return self.pushall()
+
+    def info_get_version(self) -> bool:
+        """
+        Request the printer for hardware and firmware info.
+
+        Returns:
+            bool: success state of the get info command
+        """
+        return self.__publish_command({"info": {"command": "get_version"}})
+
+    def firmware_version(self):
+        """
+        Get the firmware verions.
+
+        Returns:
+            str: firmware version
+        """
+        ota: dict[str, Any] | None = next(
+            (v for v in self.__get_info("module", [])
+             if v.get("name", "") == "ota"), None)
+        if ota is not None:
+            return ota.get("sw_ver", None)
+        else:
+            return None
 
     def pushall(self) -> bool:
         """
@@ -312,7 +343,7 @@ class PrinterMQTTClient:
         Returns:
             int | str | None: The last print percentage
         """
-        return self.__get("mc_percent", None)
+        return self.__get_print("mc_percent", None)
 
     def get_remaining_time(self) -> int | str | None:
         """
@@ -321,7 +352,7 @@ class PrinterMQTTClient:
         Returns:
             int | str | None: The remaining time for the print
         """
-        return self.__get("mc_remaining_time", None)
+        return self.__get_print("mc_remaining_time", None)
 
     def get_sequence_id(self):
         """
@@ -330,7 +361,7 @@ class PrinterMQTTClient:
         Returns:
             int : Get the current sequence ID
         """
-        return int(self.__get("sequence_id", 0))
+        return int(self.__get_print("sequence_id", 0))
 
     def get_printer_state(self) -> GcodeState:
         """
@@ -339,7 +370,7 @@ class PrinterMQTTClient:
         Returns:
             PrintStatus: printer state
         """
-        return GcodeState(self.__get("gcode_state", -1))
+        return GcodeState(self.__get_print("gcode_state", -1))
 
     def get_file_name(self) -> str:
         """
@@ -348,7 +379,7 @@ class PrinterMQTTClient:
         Returns:
             str: file name
         """
-        return self.__get("gcode_file", "")
+        return self.__get_print("gcode_file", "")
 
     def get_print_speed(self) -> int:
         """
@@ -357,7 +388,7 @@ class PrinterMQTTClient:
         Returns:
             int: print speed
         """
-        return int(self.__get("spd_mag", 100))
+        return int(self.__get_print("spd_mag", 100))
 
     def __publish_command(self, payload: dict[Any, Any]) -> bool:
         """
@@ -371,7 +402,7 @@ class PrinterMQTTClient:
             return False
 
         command = self._client.publish(self.command_topic, json.dumps(payload))
-        logging.info(f"Published command: {payload}")   # noqa  # pylint: disable=logging-fstring-interpolation
+        logging.debug(f"Published command: {payload}")
         command.wait_for_publish()
         return command.is_published()
 
@@ -394,7 +425,7 @@ class PrinterMQTTClient:
         Returns:
             str: led_mode
         """
-        light_report: list[dict[str, str]] = self.__get(
+        light_report: list[dict[str, str]] = self.__get_print(
             "lights_report", [])
 
         if not light_report:
@@ -478,7 +509,7 @@ class PrinterMQTTClient:
         Returns:
             bool: if publish command is successful
         """
-        return self.__get("s_obj", [])
+        return self.__get_print("s_obj", [])
 
     def get_current_state(self) -> PrintStatus:
         """
@@ -487,7 +518,7 @@ class PrinterMQTTClient:
         Returns:
             PrintStatus: current_state
         """
-        return PrintStatus(self.__get("stg_cur", -1))
+        return PrintStatus(self.__get_print("stg_cur", -1))
 
     def stop_print(self) -> bool:
         """
@@ -592,7 +623,7 @@ class PrinterMQTTClient:
         Returns:
             int: consolidated fan value for part, aux and chamber fan speeds
         """
-        return self.__get("fan_gear", 0)
+        return self.__get_print("fan_gear", 0)
 
     def get_part_fan_speed(self):
         """
@@ -888,7 +919,7 @@ class PrinterMQTTClient:
         Returns:
             float: bed temperature
         """
-        return float(self.__get("bed_temper", 0.0))
+        return float(self.__get_print("bed_temper", 0.0))
 
     def get_bed_temperature_target(self) -> float:
         """
@@ -897,7 +928,7 @@ class PrinterMQTTClient:
         Returns:
             float: bed temperature target
         """
-        return float(self.__get("bed_target_temper", 0.0))
+        return float(self.__get_print("bed_target_temper", 0.0))
 
     def get_nozzle_temperature(self) -> float:
         """
@@ -906,7 +937,7 @@ class PrinterMQTTClient:
         Returns:
             float: nozzle temperature
         """
-        return float(self.__get("nozzle_temper", 0.0))
+        return float(self.__get_print("nozzle_temper", 0.0))
 
     def get_nozzle_temperature_target(self) -> float:
         """
@@ -915,7 +946,7 @@ class PrinterMQTTClient:
         Returns:
             float: nozzle temperature target
         """
-        return float(self.__get("nozzle_target_temper", 0.0))
+        return float(self.__get_print("nozzle_target_temper", 0.0))
 
     def current_layer_num(self) -> int:
         """
@@ -924,7 +955,7 @@ class PrinterMQTTClient:
         Returns:
             int: number of layers
         """
-        return int(self.__get("layer_num", 0))
+        return int(self.__get_print("layer_num", 0))
 
     def total_layer_num(self) -> int:
         """
@@ -933,7 +964,7 @@ class PrinterMQTTClient:
         Returns:
             int: number of layers
         """
-        return int(self.__get("total_layer_num", 0))
+        return int(self.__get_print("total_layer_num", 0))
 
     def gcode_file_prepare_percentage(self) -> int:
         """
@@ -942,7 +973,7 @@ class PrinterMQTTClient:
         Returns:
             int: percentage
         """
-        return int(self.__get("gcode_file_prepare_percent", 0))
+        return int(self.__get_print("gcode_file_prepare_percent", 0))
 
     def nozzle_diameter(self) -> float:
         """
@@ -951,7 +982,7 @@ class PrinterMQTTClient:
         Returns:
             float: nozzle diameter
         """
-        return float(self.__get("nozzle_diameter", 0))
+        return float(self.__get_print("nozzle_diameter", 0))
 
     def nozzle_type(self) -> NozzleType:
         """
@@ -960,13 +991,14 @@ class PrinterMQTTClient:
         Returns:
             NozzleType: nozzle diameter
         """
-        return NozzleType(self.__get("nozzle_diameter", "stainless_steel"))
+        return NozzleType(
+            self.__get_print("nozzle_diameter", "stainless_steel"))
 
     def process_ams(self):
         """
         Get the filament information from the AMS system
         """
-        ams_info: dict[str, Any] = self.__get("ams")
+        ams_info: dict[str, Any] = self.__get_print("ams")
 
         self.ams_hub = AMSHub()
         if not ams_info or ams_info.get("ams_exist_bits", "0") == "0":
@@ -1001,7 +1033,7 @@ class PrinterMQTTClient:
         Returns:
             FilamentTray: External Spool Filament Tray
         """
-        tray = self.__get("vt_tray")
+        tray = self.__get_print("vt_tray")
         return FilamentTray.from_dict(tray)
 
     def subtask_name(self) -> str:
@@ -1011,7 +1043,7 @@ class PrinterMQTTClient:
         Returns:
             str: current subtask name
         """
-        return self.__get("subtask_name")
+        return self.__get_print("subtask_name")
 
     def gcode_file(self) -> str:
         """
@@ -1020,7 +1052,7 @@ class PrinterMQTTClient:
         Returns:
             str: current gcode_file name
         """
-        return self.__get("gcode_file")
+        return self.__get_print("gcode_file")
 
     def print_error_code(self) -> int:
         """
@@ -1029,7 +1061,7 @@ class PrinterMQTTClient:
         Returns:
             int: error code (0 if normal)
         """
-        return int(self.__get("print_error", 0))
+        return int(self.__get_print("print_error", 0))
 
     def print_type(self) -> str:
         """
@@ -1038,4 +1070,4 @@ class PrinterMQTTClient:
         Returns:
             str: print type
         """
-        return self.__get("print_type")
+        return self.__get_print("print_type")
