@@ -254,7 +254,7 @@ class Printer:
         """
         return self.mqtt_client.turn_light_off()
 
-    def gcode(self, gcode: str | list[str]) -> bool:
+    def gcode(self, gcode: str | list[str], gcode_check: bool = True) -> bool:
         """
         Send a gcode command to the printer.
 
@@ -262,6 +262,9 @@ class Printer:
         ----------
         gcode : str | list[str]
             The gcode command or list of gcode commands to be sent.
+
+        gcode_check: (bool): whether to check gcode validity.
+                        Default to True.
 
         Returns
         -------
@@ -273,7 +276,7 @@ class Printer:
         ValueError
             If the gcode command is invalid.
         """
-        return self.mqtt_client.send_gcode(gcode)
+        return self.mqtt_client.send_gcode(gcode, gcode_check=gcode_check)
 
     def upload_file(self, file: BinaryIO, filename: str = "ftp_upload.gcode") -> str:  # noqa
         """
