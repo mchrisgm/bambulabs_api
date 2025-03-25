@@ -484,6 +484,25 @@ class PrinterMQTTClient:
                 }
             })
 
+    def set_onboard_printer_timelapse(self, enable: bool = True):
+        """
+        Enable/disable the printer's onboard timelapse/video
+        functionality.
+
+        Args:
+            enable (bool): object list to skip objects.
+                Defaults to True.
+
+        Returns:
+            bool: if publish command is successful.
+        """
+        return self.__publish_command({
+            "camera": {
+                "command": "ipcam_record_set",
+                "control": "disable" if not enable else "enable"
+            }
+        })
+
     def skip_objects(self, obj_list: list[int]) -> bool:
         """
         Skip Objects during printing.
