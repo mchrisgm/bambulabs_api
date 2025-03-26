@@ -313,6 +313,31 @@ class PrinterMQTTClient:
         """
         return self.__publish_command({"info": {"command": "get_version"}})
 
+    def request_firmware_history(self) -> bool:
+        """
+        Request firmware history for printer.
+
+        Returns:
+            bool: success state of the get info command
+        """
+        return self.__publish_command(
+            {
+                "upgrade": {
+                    "sequence_id": "2010",
+                    "command": "get_history"
+                }
+            }
+        )
+
+    def get_firmware_history(self) -> list[Any]:
+        """
+        Get list of history firmware versions.
+
+        Returns:
+            list[Any]: list of firmware history.
+        """
+        return self._data.get("upgrade", {}).get("firmware_optional", [])
+
     def firmware_version(self):
         """
         Get the firmware verions.
