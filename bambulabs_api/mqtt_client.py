@@ -313,7 +313,7 @@ class PrinterMQTTClient:
         """
         return self.__publish_command({"info": {"command": "get_version"}})
 
-    def request_firmware_history(self) -> bool:
+    def request_firmware_history(self):
         """
         Request firmware history for printer.
 
@@ -780,6 +780,37 @@ class PrinterMQTTClient:
             bool: success of the auto home command
         """
         return self.__send_gcode_line("G28\n")
+
+    def request_access_code(self):
+        """
+        Request the printer for access code.
+
+        Returns:
+            bool: success of the auto home command
+        """
+        return self.__publish_command({
+            "system": {
+                "command": "get_access_code",
+            }
+        })
+
+    def get_access_code(self) -> str:
+        """
+        Get local access code.
+
+        Returns:
+            list[Any]: list of firmware history.
+        """
+        code = self._data.get("system", {}).get("command", None)
+        if code is None:
+            return self._access
+        elif code != self._access:
+            logging.error(
+                f"Unexpected state: our access code is {self._access}; "
+                f"reported is {code}")
+            return code
+        else:
+            return code
 
     def set_auto_step_recovery(self, auto_step_recovery: bool = True) -> bool:
         """
