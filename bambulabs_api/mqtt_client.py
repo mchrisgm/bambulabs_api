@@ -1119,10 +1119,17 @@ class PrinterMQTTClient:
 
     def upgrade_firmware(self, override: bool = False) -> bool:
         """
-        Upgrade to latest firmware
+        Upgrade to latest firmware. Logs warning is firmware version
+        may cause api to fail.
+
+        Args:
+            override (bool): nozzle type to set.
+                Default to False.
 
         Returns:
             bool: if the printer upgraded to the latest firmware.
+                Returns false if firmware is causes api to break and
+                override is not provided.
         """
         new_firmware = self.new_printer_firmware()
         if new_firmware is not None:
@@ -1143,8 +1150,15 @@ class PrinterMQTTClient:
 
     def downgrade_firmware(self, firmware_version: str) -> bool:
         """
-        Downgrade the firmware to a given version.
+        Downgrade the firmware to a given version. Requires firmware version
+        to be listed in the firmware history.
 
+        Args:
+            firmware_version (str): target firmware version to downgrade to.
+                Firmware version must be in the version history.
+
+        Returns:
+            bool: if the printer downgraded to the target firmware.
         """
         firmware_history = self.get_firmware_history()
         if not firmware_history:
