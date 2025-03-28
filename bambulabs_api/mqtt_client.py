@@ -1072,6 +1072,32 @@ class PrinterMQTTClient:
         return NozzleType(
             self.__get_print("nozzle_diameter", "stainless_steel"))
 
+    def set_nozzle_info(
+            self,
+            nozzle_type: NozzleType,
+            nozzle_diameter: float = 0.4) -> bool:
+        """
+        Set the nozzle info.
+
+        Args:
+            nozzle_type (NozzleType): nozzle type to set.
+            nozzle_diameter (Optional[float]): diameter of nozzle.
+                Defaults to 0.4.
+
+        Returns:
+            bool: if publish command is successful.
+        """
+        return self.__publish_command(
+            {
+                "system": {
+                    "accessory_type": "nozzle",
+                    "command": "set_accessories",
+                    "nozzle_diameter": nozzle_diameter,
+                    "nozzle_type": nozzle_type.value,
+                }
+            }
+        )
+
     def process_ams(self):
         """
         Get the filament information from the AMS system
