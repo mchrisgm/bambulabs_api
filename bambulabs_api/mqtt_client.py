@@ -195,7 +195,10 @@ class PrinterMQTTClient:
         self.on_message_handler(self, client, userdata, msg)
 
     def manual_update(self, doc: dict[str, Any]) -> None:
-        self._data |= doc
+        for k, v in doc.items():
+            if k not in self._data:
+                self._data[k] = {}
+            self._data[k] |= v
         logging.debug(self._data)
 
         firmware_version = self.firmware_version()
@@ -235,6 +238,7 @@ class PrinterMQTTClient:
                         {
                             "pushing": {"command": "pushall"},
                             "info": {"command": "get_version"},
+                            "upgrade": {"command": "get_history"},
                         }))
             logging.info("Connection Handshake Completed")
         else:
@@ -323,7 +327,6 @@ class PrinterMQTTClient:
         return self.__publish_command(
             {
                 "upgrade": {
-                    "sequence_id": "2010",
                     "command": "get_history"
                 }
             }
@@ -1094,6 +1097,77 @@ class PrinterMQTTClient:
                     "command": "set_accessories",
                     "nozzle_diameter": nozzle_diameter,
                     "nozzle_type": nozzle_type.value,
+                }
+            }
+        )
+
+    def new_printer_firmware(self) -> str | None:
+        """
+        Get if a new firmware version is available.
+
+        Returns:
+            str | None: newest firmware version if available else None.
+        """
+        return next(
+            (
+                i.get("new_ver", None) for i in (
+                    self.__get_print(
+                        "upgrade_state", {}
+                    ).get("new_ver_list", [])
+                ) if i.get("name", "") == "ota"
+            ), None)
+
+    def upgrade_firmware(self, override: bool = False) -> bool:
+        """
+        Upgrade to latest firmware
+
+        Returns:
+            bool: if the printer upgraded to the latest firmware.
+        """
+        new_firmware = self.new_printer_firmware()
+        if new_firmware is not None:
+            if new_firmware >= "1.08" and not override:
+                logging.warning(
+                    f"You are about to upgrade to {new_firmware}."
+                    "Firmware above 1.08 may result in api incompatibility"
+                )
+                return False
+            return self.__publish_command({
+                "upgrade": {
+                    "command": "upgrade_confirm",
+                    "src_id": 2,
+                }
+            })
+        else:
+            return False
+
+    def downgrade_firmware(self, firmware_version: str) -> bool:
+        """
+        Downgrade the firmware to a given version.
+
+        """
+        firmware_history = self.get_firmware_history()
+        if not firmware_history:
+            logging.warning("Firmware history not up to date")
+            return False
+        firmware = next(
+            (firmware["firmware"] for firmware in firmware_history
+             if firmware.get("firmware", {}).get(
+                 "version", None) == firmware_version), None)
+
+        if firmware is None:
+            logging.warning(
+                f"Firmware {firmware_version} not found in listed firmware")
+            return False
+
+        return self.__publish_command(
+            {
+                "upgrade": {
+                    "command": "upgrade_history",
+                    "src_id": 2,
+                    "firmware_optional": {
+                        "firmware": firmware,
+                    }
                 }
             }
         )
