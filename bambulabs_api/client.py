@@ -71,6 +71,17 @@ class Printer:
         """
         return self.mqtt_client.current_layer_num()
 
+    def total_layer_num(self):
+        """
+        Get total layer number
+
+        Returns
+        -------
+        int
+            Total layer number
+        """
+        return self.mqtt_client.total_layer_num()
+
     def camera_start(self):
         """
         Start the camera
