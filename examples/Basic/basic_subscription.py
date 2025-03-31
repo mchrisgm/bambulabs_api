@@ -1,6 +1,7 @@
 import time
 import bambulabs_api as bl
 import os
+import datetime
 
 IP = '192.168.1.200'
 SERIAL = 'AC12309BH109'
@@ -27,11 +28,24 @@ if __name__ == '__main__':
 
             # Get the printer status
             status = printer.get_state()
+            percentage = printer.get_percentage()
+            layer_num = printer.current_layer_num()
+            total_layer_num = printer.total_layer_num()
             bed_temperature = printer.get_bed_temperature()
             nozzle_temperature = printer.get_nozzle_temperature()
+            remaining_time = printer.get_time()
+            finish_time = datetime.datetime.now() + datetime.timedelta(minutes=int(remaining_time))
+            finish_time_format = finish_time.strftime("%Y-%m-%d %H:%M:%S")
             print(
-                f'Printer status: {status}, Bed temp: {bed_temperature}, '
-                f'Nozzle temp: {nozzle_temperature}')
+                f'''Printer status: {status}
+                Layers: {layer_num}/{total_layer_num}
+                percentage: {percentage}%
+                Bed temp: {bed_temperature} ºC
+                Nozzle temp: {nozzle_temperature} ºC
+                Remaining time: {remaining_time}m
+                Finish time: {finish_time_format}
+                '''
+                )
 
             if env == "debug":
                 print("=" * 100)
