@@ -34,8 +34,13 @@ if __name__ == '__main__':
             bed_temperature = printer.get_bed_temperature()
             nozzle_temperature = printer.get_nozzle_temperature()
             remaining_time = printer.get_time()
-            finish_time = datetime.datetime.now() + datetime.timedelta(minutes=int(remaining_time))
-            finish_time_format = finish_time.strftime("%Y-%m-%d %H:%M:%S")
+            if remaining_time is not None:
+                finish_time = datetime.datetime.now() + datetime.timedelta(
+                    minutes=int(remaining_time))
+                finish_time_format = finish_time.strftime("%Y-%m-%d %H:%M:%S")
+            else:
+                finish_time_format = "NA"
+
             print(
                 f'''Printer status: {status}
                 Layers: {layer_num}/{total_layer_num}
@@ -45,13 +50,17 @@ if __name__ == '__main__':
                 Remaining time: {remaining_time}m
                 Finish time: {finish_time_format}
                 '''
-                )
+            )
 
             if debug:
                 import json
                 print("=" * 100)
                 print("Printer MQTT Dump")
-                print(json.dumps(printer.mqtt_dump(), sort_keys=True, indent=2))
+                print(json.dumps(
+                    printer.mqtt_dump(),
+                    sort_keys=True,
+                    indent=2
+                ))
                 print("=" * 100)
     finally:
         # Disconnect from the Bambulabs 3D printer
