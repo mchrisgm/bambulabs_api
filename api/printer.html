@@ -54,6 +54,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.camera_start"><code class="docutils literal notranslate"><span class="pre">camera_start()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.camera_stop"><code class="docutils literal notranslate"><span class="pre">camera_stop()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.connect"><code class="docutils literal notranslate"><span class="pre">connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.current_layer_num"><code class="docutils literal notranslate"><span class="pre">current_layer_num()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.delete_file"><code class="docutils literal notranslate"><span class="pre">delete_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.disconnect"><code class="docutils literal notranslate"><span class="pre">disconnect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.gcode"><code class="docutils literal notranslate"><span class="pre">gcode()</span></code></a></li>
@@ -96,6 +97,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.start_print"><code class="docutils literal notranslate"><span class="pre">start_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.stop_print"><code class="docutils literal notranslate"><span class="pre">stop_print()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.subtask_name"><code class="docutils literal notranslate"><span class="pre">subtask_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.total_layer_num"><code class="docutils literal notranslate"><span class="pre">total_layer_num()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.turn_light_off"><code class="docutils literal notranslate"><span class="pre">turn_light_off()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.turn_light_on"><code class="docutils literal notranslate"><span class="pre">turn_light_on()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bambulabs_api.Printer.unload_filament_spool"><code class="docutils literal notranslate"><span class="pre">unload_filament_spool()</span></code></a></li>
@@ -214,6 +216,20 @@
 <dt class="sig sig-object py" id="bambulabs_api.Printer.connect">
 <span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.Printer.connect" title="Link to this definition"></a></dt>
 <dd><p>Connect to the printer</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.current_layer_num">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">current_layer_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.Printer.current_layer_num" title="Link to this definition"></a></dt>
+<dd><p>Get current layer number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Current layer number</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -855,6 +871,20 @@ by default [0].</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bambulabs_api.Printer.total_layer_num">
+<span class="sig-prename descclassname"><span class="pre">bambulabs_api.Printer.</span></span><span class="sig-name descname"><span class="pre">total_layer_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bambulabs_api.Printer.total_layer_num" title="Link to this definition"></a></dt>
+<dd><p>Get total layer number</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Total layer number</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
 </dd>
 </dl>
 </dd></dl>

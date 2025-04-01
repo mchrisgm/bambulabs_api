@@ -130,12 +130,13 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">bambulabs_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">bl</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 
 <span class="n">IP</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.200&#39;</span>
 <span class="n">SERIAL</span> <span class="o">=</span> <span class="s1">&#39;AC12309BH109&#39;</span>
 <span class="n">ACCESS_CODE</span> <span class="o">=</span> <span class="s1">&#39;12347890&#39;</span>
 
-<span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">)</span>
+<span class="n">debug</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Starting bambulabs_api example&#39;</span><span class="p">)</span>
@@ -156,16 +157,39 @@ Make sure that ports 8883, 6000 and 990 are accessible from your machine.</p>
 
             <span class="c1"># Get the printer status</span>
             <span class="n">status</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+            <span class="n">percentage</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_percentage</span><span class="p">()</span>
+            <span class="n">layer_num</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">current_layer_num</span><span class="p">()</span>
+            <span class="n">total_layer_num</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">total_layer_num</span><span class="p">()</span>
             <span class="n">bed_temperature</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_bed_temperature</span><span class="p">()</span>
             <span class="n">nozzle_temperature</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_nozzle_temperature</span><span class="p">()</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;Printer status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s1">, Bed temp: </span><span class="si">{</span><span class="n">bed_temperature</span><span class="si">}</span><span class="s1">, &#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;Nozzle temp: </span><span class="si">{</span><span class="n">nozzle_temperature</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">remaining_time</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">get_time</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">remaining_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">finish_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span>
+                    <span class="n">minutes</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">remaining_time</span><span class="p">))</span>
+                <span class="n">finish_time_format</span> <span class="o">=</span> <span class="n">finish_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">finish_time_format</span> <span class="o">=</span> <span class="s2">&quot;NA&quot;</span>
 
-            <span class="k">if</span> <span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;debug&quot;</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;&#39;&#39;Printer status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span>
+<span class="s1">                Layers: </span><span class="si">{</span><span class="n">layer_num</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">total_layer_num</span><span class="si">}</span>
+<span class="s1">                percentage: </span><span class="si">{</span><span class="n">percentage</span><span class="si">}</span><span class="s1">%</span>
+<span class="s1">                Bed temp: </span><span class="si">{</span><span class="n">bed_temperature</span><span class="si">}</span><span class="s1"> ºC</span>
+<span class="s1">                Nozzle temp: </span><span class="si">{</span><span class="n">nozzle_temperature</span><span class="si">}</span><span class="s1"> ºC</span>
+<span class="s1">                Remaining time: </span><span class="si">{</span><span class="n">remaining_time</span><span class="si">}</span><span class="s1">m</span>
+<span class="s1">                Finish time: </span><span class="si">{</span><span class="n">finish_time_format</span><span class="si">}</span>
+<span class="s1">                &#39;&#39;&#39;</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Printer MQTT Dump&quot;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">printer</span><span class="o">.</span><span class="n">mqtt_dump</span><span class="p">())</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+                    <span class="n">printer</span><span class="o">.</span><span class="n">mqtt_dump</span><span class="p">(),</span>
+                    <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">indent</span><span class="o">=</span><span class="mi">2</span>
+                <span class="p">))</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="c1"># Disconnect from the Bambulabs 3D printer</span>
